@@ -58,91 +58,101 @@ export function BookingForm({ propertyName, pricePerPerson, onClose }: BookingFo
   };
 
   return (
-    <div className="space-y-4 py-0 pb-20 md:pb-0">
-      <div className="grid gap-4 max-h-[60vh] md:max-h-[50vh] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent">
-        <div className="grid gap-2">
-          <Label htmlFor="name">Full Name</Label>
-          <Input 
-            id="name" 
-            placeholder="Enter your name" 
-            value={formData.name}
-            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-          />
-        </div>
-        <div className="grid gap-2">
-          <Label htmlFor="mobile">Mobile Number</Label>
-          <Input 
-            id="mobile" 
-            type="tel"
-            inputMode="tel"
-            placeholder="Enter mobile number" 
-            value={formData.mobile}
-            onChange={(e) => setFormData({ ...formData, mobile: e.target.value })}
-          />
-        </div>
-        <div className="grid grid-cols-2 gap-4">
+    <div className="space-y-6 py-0 pb-20 md:pb-0">
+      <div className="grid gap-6 max-h-[60vh] md:max-h-[50vh] overflow-y-auto pr-4 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="grid gap-2">
-            <Label>Check-in</Label>
-            <Popover open={isCheckInOpen} onOpenChange={setIsCheckInOpen}>
-              <PopoverTrigger asChild>
-                <Button
-                  variant="outline"
-                  className={cn(
-                    "justify-start text-left font-normal",
-                    !formData.checkIn && "text-muted-foreground"
-                  )}
-                >
-                  <CalendarIcon className="mr-2 h-4 w-4" />
-                  {formData.checkIn ? format(formData.checkIn, "MMM d, yyyy") : <span>Pick date</span>}
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-auto p-0">
-                <Calendar
-                  mode="single"
-                  selected={formData.checkIn}
-                  onSelect={(date) => {
-                    setFormData({ ...formData, checkIn: date });
-                    setIsCheckInOpen(false);
-                  }}
-                  initialFocus
-                  className="p-3 pointer-events-auto"
-                />
-              </PopoverContent>
-            </Popover>
+            <Label htmlFor="name" className="text-sm font-semibold">Full Name</Label>
+            <Input 
+              id="name" 
+              placeholder="Enter your name" 
+              value={formData.name}
+              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+              className="h-11 rounded-xl border-gray-200 focus:ring-primary"
+            />
           </div>
           <div className="grid gap-2">
-            <Label>Check-out</Label>
-            <Popover open={isCheckOutOpen} onOpenChange={setIsCheckOutOpen}>
-              <PopoverTrigger asChild>
-                <Button
-                  variant="outline"
-                  className={cn(
-                    "justify-start text-left font-normal",
-                    !formData.checkOut && "text-muted-foreground"
-                  )}
-                >
-                  <CalendarIcon className="mr-2 h-4 w-4" />
-                  {formData.checkOut ? format(formData.checkOut, "MMM d, yyyy") : <span>Pick date</span>}
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-auto p-0">
-                <Calendar
-                  mode="single"
-                  selected={formData.checkOut}
-                  onSelect={(date) => {
-                    setFormData({ ...formData, checkOut: date });
-                    setIsCheckOutOpen(false);
-                  }}
-                  initialFocus
-                  className="p-3 pointer-events-auto"
-                />
-              </PopoverContent>
-            </Popover>
+            <Label htmlFor="mobile" className="text-sm font-semibold">Mobile Number</Label>
+            <Input 
+              id="mobile" 
+              type="tel"
+              inputMode="tel"
+              placeholder="Enter mobile number" 
+              value={formData.mobile}
+              onChange={(e) => setFormData({ ...formData, mobile: e.target.value })}
+              className="h-11 rounded-xl border-gray-200 focus:ring-primary"
+            />
           </div>
         </div>
+
+        <div className="space-y-3">
+          <Label className="text-sm font-semibold">Booking Dates</Label>
+          <div className="grid grid-cols-2 gap-4">
+            <div className="grid gap-2">
+              <Label className="text-xs text-muted-foreground">Check-in</Label>
+              <Popover open={isCheckInOpen} onOpenChange={setIsCheckInOpen}>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    className={cn(
+                      "h-11 rounded-xl justify-start text-left font-normal border-gray-200",
+                      !formData.checkIn && "text-muted-foreground"
+                    )}
+                  >
+                    <CalendarIcon className="mr-2 h-4 w-4 text-primary" />
+                    {formData.checkIn ? format(formData.checkIn, "MMM d") : <span>Date</span>}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <Calendar
+                    mode="single"
+                    selected={formData.checkIn}
+                    onSelect={(date) => {
+                      setFormData({ ...formData, checkIn: date });
+                      setIsCheckInOpen(false);
+                    }}
+                    initialFocus
+                    className="p-3 pointer-events-auto"
+                  />
+                </PopoverContent>
+              </Popover>
+            </div>
+            <div className="grid gap-2">
+              <Label className="text-xs text-muted-foreground">Check-out</Label>
+              <Popover open={isCheckOutOpen} onOpenChange={setIsCheckOutOpen}>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    className={cn(
+                      "h-11 rounded-xl justify-start text-left font-normal border-gray-200",
+                      !formData.checkOut && "text-muted-foreground"
+                    )}
+                  >
+                    <CalendarIcon className="mr-2 h-4 w-4 text-primary" />
+                    {formData.checkOut ? format(formData.checkOut, "MMM d") : <span>Date</span>}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="end">
+                  <Calendar
+                    mode="single"
+                    selected={formData.checkOut}
+                    onSelect={(date) => {
+                      setFormData({ ...formData, checkOut: date });
+                      setIsCheckOutOpen(false);
+                    }}
+                    initialFocus
+                    className="p-3 pointer-events-auto"
+                  />
+                </PopoverContent>
+              </Popover>
+            </div>
+          </div>
+        </div>
+
         <div className="grid gap-2">
-          <Label htmlFor="persons">Number of Persons</Label>
-          <div className="flex items-center gap-4">
+          <Label htmlFor="persons" className="text-sm font-semibold">Number of Persons</Label>
+          <div className="flex items-center gap-4 bg-gray-50 p-3 rounded-xl border border-gray-100">
+            <Users className="w-5 h-5 text-primary" />
             <Input 
               id="persons" 
               type="text" 
@@ -155,9 +165,9 @@ export function BookingForm({ propertyName, pricePerPerson, onClose }: BookingFo
                   setFormData({ ...formData, persons: val === "" ? 0 : parseInt(val) });
                 }
               }}
-              className="w-24"
+              className="w-20 h-9 rounded-lg border-gray-200 text-center font-bold"
             />
-            <span className="text-sm text-muted-foreground">× ₹${pricePerPerson} per person</span>
+            <span className="text-sm text-muted-foreground font-medium">× ₹{pricePerPerson} per person</span>
           </div>
         </div>
       </div>
