@@ -149,6 +149,12 @@ export function BookingForm({ propertyName, pricePerPerson, onClose }: BookingFo
               inputMode="numeric"
               pattern="[0-9]*"
               value={formData.persons || ""}
+              onFocus={(e) => {
+                // Scroll the element into view with offset for keyboard
+                setTimeout(() => {
+                  e.target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }, 300);
+              }}
               onChange={(e) => {
                 const val = e.target.value;
                 if (val === "" || /^[0-9]+$/.test(val)) {
@@ -157,7 +163,7 @@ export function BookingForm({ propertyName, pricePerPerson, onClose }: BookingFo
               }}
               className="w-24"
             />
-            <span className="text-sm text-muted-foreground">× ₹${pricePerPerson} per person</span>
+            <span className="text-sm text-muted-foreground">× ₹{pricePerPerson} per person</span>
           </div>
         </div>
       </div>
