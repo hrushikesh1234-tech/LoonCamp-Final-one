@@ -15,8 +15,8 @@ async function initializeDatabase() {
 
     console.log('Database initialized successfully!');
     console.log('\nDefault admin credentials:');
-    console.log('Email: admin@looncamp.com');
-    console.log('Password: admin123');
+    console.log('Email: info@looncamp.com');
+    console.log('Password: LoonCamp@2026');
     console.log('\nPlease change the password after first login!');
 
     process.exit(0);
