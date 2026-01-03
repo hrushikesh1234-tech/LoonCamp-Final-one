@@ -2,7 +2,7 @@ const bcrypt = require('bcrypt');
 
 async function generateHash() {
   try {
-    const password = 'admin123';
+    const password = 'LoonCamp@2026';
     const saltRounds = 10;
     const hash = await bcrypt.hash(password, saltRounds);
 

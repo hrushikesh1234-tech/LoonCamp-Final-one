@@ -53,7 +53,7 @@ CREATE INDEX IF NOT EXISTS idx_property_images_property_id ON property_images(pr
 -- Insert default admin user (password: LoonCamp@2026)
 -- Password hash generated using bcrypt with 10 rounds
 INSERT INTO admins (email, password_hash)
-VALUES ('info@looncamp.com', '$2b$10$7ZJ3zYx5y8j9cqGVqVZqTOXxVqHzQ8xH6K5KZ8vQXZ8xQZ8xQZ8xQ')
+VALUES ('info@looncamp.com', '$2b$10$InC9HGOdQsVY/JY.8Vwz7OmLCjYYdOg6zkG21.J2f3uDh7qVOe8rC')
 ON CONFLICT (email) DO NOTHING;
 
 -- Sample property data (optional - for testing)
