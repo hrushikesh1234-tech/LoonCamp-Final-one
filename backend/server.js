@@ -21,6 +21,13 @@ app.use((req, res, next) => {
   next();
 });
 
+// Serve static files from React admin panel
+app.use('/admin', express.static(path.join(__dirname, '../admin/build')));
+
+app.get('/admin/*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../admin/build', 'index.html'));
+});
+
 // API Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/properties', propertyRoutes);
