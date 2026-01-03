@@ -25,7 +25,7 @@ app.use((req, res, next) => {
 app.use('/admin', express.static(path.join(__dirname, '../admin/build')));
 
 app.get('/admin/*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../admin/build', 'index.html'));
+  res.sendFile(path.resolve(__dirname, '../admin/build/index.html'));
 });
 
 // API Routes
