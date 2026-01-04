@@ -202,7 +202,7 @@ const Properties = () => {
                     style={{ animationDelay: `${index * 100}ms` }}
                     data-testid={`card-property-${property.title.replace(/\s+/g, "-").toLowerCase()}`}
                   >
-                    <PropertyCard id={property.id} {...property} />
+                    <PropertyCard id={property.id} slug={property.slug} {...property} />
                   </div>
                 ))}
               </div>
