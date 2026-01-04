@@ -27,4 +27,8 @@ router.post('/upload-image', authMiddleware, upload.single('image'), (req, res) 
   }
 });
 
+// Category Settings (Admin)
+router.get('/settings/categories', authMiddleware, propertyController.getCategorySettings);
+router.put('/settings/categories/:category', authMiddleware, propertyController.updateCategorySettings);
+
 module.exports = router;
