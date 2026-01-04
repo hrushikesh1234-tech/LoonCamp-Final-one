@@ -1,5 +1,5 @@
 import { Helmet } from "react-helmet-async";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -35,8 +35,9 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import ImageSlider from "@/components/ImageSlider";
-import { properties } from "@/components/Properties";
 import { BookingForm } from "@/components/BookingForm";
+import { propertyAPI } from "@/lib/api";
+import { Skeleton } from "@/components/ui/skeleton";
 
 // Helper for mapping icons
 const getIcon = (amenity: string) => {
@@ -59,22 +60,23 @@ const getIcon = (amenity: string) => {
 // Extended property interface with full details
 interface PropertyDetail {
   id: string;
+  slug: string;
   image: string;
-  images?: string[];
+  images: string[];
   title: string;
   price: string;
   pricePerNight?: string;
   priceNote: string;
   amenities: string[];
-  isTopSelling: boolean;
+  is_top_selling: boolean;
   location: string;
   rating: number;
   category: "camping" | "cottage" | "villa";
   description: string;
   capacity: number;
   maxCapacity?: number;
-  checkInTime?: string;
-  checkOutTime?: string;
+  check_in_time?: string;
+  check_out_time?: string;
   highlights: string[];
   activities: string[];
   policies?: string[];
@@ -83,103 +85,62 @@ interface PropertyDetail {
 
 const PropertyDetails = () => {
   const { propertyId } = useParams();
+  const [propertyData, setPropertyData] = useState<PropertyDetail | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "instant" });
+
+    const fetchProperty = async () => {
+      try {
+        if (!propertyId) return;
+        const response = await propertyAPI.getPublicBySlug(propertyId);
+        if (response.success) {
+          const p = response.data;
+          setPropertyData({
+            ...p,
+            image: p.images && p.images.length > 0 ? p.images[0].image_url : "https://images.unsplash.com/photo-1571508601166-972e0a1f3ced?w=1200",
+            images: p.images ? p.images.map((img: any) => img.image_url) : []
+          });
+        }
+      } catch (error) {
+        console.error("Failed to fetch property details:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProperty();
   }, [propertyId]);
 
-  // Find property from the properties list
-  const foundProperty = properties.find((p) => p.id === propertyId);
-  
-  // Default property data if not found
-  const defaultProperty: PropertyDetail = {
-    id: propertyId || "1",
-    image: "https://images.unsplash.com/photo-1571508601166-972e0a1f3ced?w=1200&h=800&fit=crop",
-    images: [
-      "https://images.unsplash.com/photo-1571508601166-972e0a1f3ced?w=1200&h=800&fit=crop",
-      "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1200&h=800&fit=crop",
-      "https://images.unsplash.com/photo-1537359108129-c0eb8706cbf7?w=1200&h=800&fit=crop",
-      "https://images.unsplash.com/photo-1551092160-e23e9b6b8f69?w=1200&h=800&fit=crop",
-    ],
-    title: "Luxury Lakeside Cottage",
-    price: "₹7,499",
-    pricePerNight: "₹3,500",
-    priceNote: "per person with meal",
-    location: "Pawna Lake, Maharashtra",
-    rating: 4.8,
-    category: "cottage",
-    amenities: [
-      "Private Pool",
-      "Private Washroom",
-      "AC",
-      "Mini Fridge",
-      "Smart Projector",
-      "Home Theatre",
-      "BBQ",
-      "Food Included",
-      "Lake Touch",
-      "Toiletries",
-      "Garden",
-    ],
-    isTopSelling: true,
-    capacity: 4,
-    checkInTime: "2:00 PM",
-    checkOutTime: "11:00 AM",
-    description:
-      "Experience the ultimate luxury at our lakeside retreat. Wake up to stunning lake views, enjoy world-class amenities, and unwind in nature's embrace. Perfect for couples, families, and groups seeking an unforgettable getaway.",
-    highlights: [
-      "Panoramic lake views",
-      "Private infinity pool",
-      "Spa and wellness center",
-      "Gourmet dining experience",
-      "Water sports facilities",
-      "Photography-worthy locations",
-    ],
-    activities: [
-      "Boating",
-      "Swimming",
-      "Hiking",
-      "Bonfire",
-      "Stargazing",
-      "Yoga and meditation",
-      "Photography tours",
-      "Local cultural experiences",
-    ],
-    policies: [
-      "Free cancellation up to 7 days before check-in",
-      "50% refund for cancellation 3-7 days before",
-      "No refund for cancellation within 3 days",
-      "Children below 5 years stay free",
-    ],
-    contact: "+91 8669505727",
-  };
+  if (loading) {
+    return (
+      <div className="container mx-auto px-6 py-12 space-y-8">
+        <Skeleton className="h-[400px] w-full rounded-3xl" />
+        <div className="grid lg:grid-cols-12 gap-8">
+          <div className="lg:col-span-8 space-y-6">
+            <Skeleton className="h-12 w-3/4" />
+            <Skeleton className="h-4 w-full" />
+            <Skeleton className="h-4 w-full" />
+            <Skeleton className="h-4 w-2/3" />
+          </div>
+        </div>
+      </div>
+    );
+  }
 
-  // Merge found property with default property
-  const propertyData: PropertyDetail = foundProperty
-    ? {
-        ...defaultProperty,
-        ...foundProperty,
-        images: foundProperty.images || [foundProperty.image],
-        highlights: foundProperty.highlights || [
-          "Excellent amenities",
-          "Beautiful location",
-          "Great value",
-          "Friendly staff",
-        ],
-        activities: foundProperty.activities || [
-          "Boating",
-          "Bonfire",
-          "Swimming",
-          "Hiking",
-        ],
-        policies: foundProperty.policies || [
-          "Free cancellation up to 7 days before check-in",
-          "50% refund for cancellation 3-7 days before",
-        ],
-      }
-    : defaultProperty;
+  if (!propertyData) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center p-6 text-center">
+        <h2 className="text-3xl font-display font-bold mb-4">Property Not Found</h2>
+        <p className="text-muted-foreground mb-8">The property you're looking for might have been moved or is no longer active.</p>
+        <Link to="/">
+          <Button size="lg">Return Home</Button>
+        </Link>
+      </div>
+    );
+  }
 
-  const isCampingOrCottage = propertyData.category === "camping" || propertyData.category === "cottage";
   const isVilla = propertyData.category === "villa";
 
   return (
@@ -223,7 +184,7 @@ const PropertyDetails = () => {
               >
                 <Share2 className="w-4 h-4" />
               </Button>
-              {propertyData.isTopSelling && (
+              {propertyData.is_top_selling && (
                 <Badge className="bg-primary text-primary-foreground border-none px-4 py-1.5 shadow-gold hidden sm:flex">
                   <Star className="w-3.5 h-3.5 mr-1.5 fill-current" />
                   Top Selling
@@ -328,7 +289,7 @@ const PropertyDetails = () => {
                       </div>
                       <div>
                         <p className="text-[10px] uppercase tracking-widest font-bold text-muted-foreground">Inquiry Support</p>
-                        <p className="font-bold text-foreground">{propertyData.contact}</p>
+                        <p className="font-bold text-foreground">{propertyData.contact || "+91 8669505727"}</p>
                       </div>
                     </div>
                   </div>
@@ -379,14 +340,14 @@ const PropertyDetails = () => {
                       <Clock className="w-5 h-5" />
                     </div>
                     <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold">Check-in</span>
-                    <span className="text-sm font-semibold">{propertyData.checkInTime}</span>
+                    <span className="text-sm font-semibold">{propertyData.check_in_time}</span>
                   </div>
                   <div className="flex flex-col gap-2">
                     <div className="w-10 h-10 rounded-xl bg-background flex items-center justify-center text-primary shadow-sm border border-border/30">
                       <Clock className="w-5 h-5" />
                     </div>
                     <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold">Check-out</span>
-                    <span className="text-sm font-semibold">{propertyData.checkOutTime}</span>
+                    <span className="text-sm font-semibold">{propertyData.check_out_time}</span>
                   </div>
                   <div className="flex flex-col gap-2">
                     <div className="w-10 h-10 rounded-xl bg-background flex items-center justify-center text-primary shadow-sm border border-border/30">
@@ -453,7 +414,7 @@ const PropertyDetails = () => {
               </Card>
 
               {/* Policies */}
-              {propertyData.policies && (
+              {propertyData.policies && propertyData.policies.length > 0 && (
                 <Card className="rounded-3xl p-8 md:p-10 shadow-sm border-border/50 bg-background/50 border-dashed">
                   <h3 className="text-2xl font-display font-semibold mb-8">Good to Know</h3>
                   <div className="space-y-4">
@@ -555,7 +516,7 @@ const PropertyDetails = () => {
                       </div>
                       <div>
                         <p className="text-[10px] uppercase tracking-widest font-bold text-muted-foreground">Inquiry Support</p>
-                        <p className="font-bold text-foreground">{propertyData.contact}</p>
+                        <p className="font-bold text-foreground">{propertyData.contact || "+91 8669505727"}</p>
                       </div>
                     </div>
                   </div>

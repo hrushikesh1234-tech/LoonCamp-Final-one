@@ -1,0 +1,117 @@
+You already built a working Admin Panel and PostgreSQL database for the "LoonCamp" project.
+
+CURRENT STATUS (IMPORTANT CONTEXT):
+- Admin panel (React) is fully functional
+- Admin can create, update, delete properties
+- All changes correctly persist in PostgreSQL
+- Backend APIs are working
+- Admin panel uses protected APIs (JWT)
+- This is CONFIRMED working
+
+PROBLEM TO SOLVE:
+- The public website (user-facing site) is NOT connected to the backend/database
+- Changes made in admin panel are NOT reflected on the public website
+- The public website is currently using static or mock data
+
+GOAL:
+- Connect the public website to the SAME backend and SAME PostgreSQL database
+- Public website must display LIVE data from database
+- Any admin action (add/edit/delete/enable/disable) must reflect immediately on the website
+- NO admin functionality should be accessible to public users
+
+IMPORTANT CONSTRAINTS:
+- Use the EXISTING Node.js + PostgreSQL backend
+- Do NOT duplicate databases
+- Do NOT duplicate APIs
+- Do NOT create a second backend
+- Public website must consume READ-ONLY APIs
+- No authentication required for public users
+- Admin routes must remain protected by JWT
+
+ARCHITECTURE REQUIREMENTS:
+- One backend
+- One PostgreSQL database
+- Two frontends:
+  1) Admin Panel (protected)
+  2) Public Website (read-only)
+
+PUBLIC WEBSITE REQUIREMENTS:
+
+DATA SOURCE:
+- Fetch all property data from backend API
+- Use ONLY public APIs
+- NO direct DB access from frontend
+
+PUBLIC APIs TO USE / CREATE:
+- GET /api/properties/public-list
+  - Returns ONLY properties where is_active = true
+  - Sorted by:
+    - Top selling first
+    - Latest updated next
+
+OPTIONAL (for detail pages):
+- GET /api/properties/:slug
+  - Returns single active property with images
+
+PUBLIC WEBSITE FEATURES:
+- List Campings
+- List Cottages
+- List Villas
+- Show property images
+- Show amenities, highlights, activities, policies
+- Show price, capacity, location
+- Show only ACTIVE properties
+- Automatically reflect admin changes without refresh delay
+
+LIVE UPDATE BEHAVIOR:
+- No caching on backend responses
+- Use fresh API fetch on page load
+- Optional polling or re-fetch on navigation
+- Changes in admin panel must reflect immediately on public site
+
+SECURITY REQUIREMENTS:
+- Public APIs must NEVER expose:
+  - admin emails
+  - password hashes
+  - inactive properties
+- Public users must NOT be able to:
+  - add
+  - edit
+  - delete
+  - toggle status
+- Admin APIs must remain JWT-protected
+
+FRONTEND REQUIREMENTS (PUBLIC SITE):
+- Use React
+- Replace all static/mock data with API-based data
+- Central API service layer (fetch/axios)
+- Handle loading & error states gracefully
+- Clean UI separation between admin & public
+
+BACKEND REQUIREMENTS:
+- Reuse existing controllers where possible
+- Create a clean public controller if needed
+- Ensure JSON fields are parsed properly before response
+- Ensure response shape matches frontend needs
+
+DELIVERABLES REQUIRED:
+1) Public API endpoints wired to database
+2) Public website updated to consume live data
+3) Clear separation between admin APIs and public APIs
+4) README section explaining:
+   - How admin changes reflect on website
+   - Which APIs are admin-only vs public
+   - How to test live updates
+
+IMPORTANT NOTES:
+- DO NOT rebuild the admin panel
+- DO NOT change database schema
+- DO NOT introduce new authentication for public users
+- Keep architecture clean and scalable
+- This setup must support future features like bookings and payments
+
+FINAL GOAL:
+Admin panel controls the data.
+Public website reflects it live.
+Users can only view and book.
+Admins can manage everything securely.

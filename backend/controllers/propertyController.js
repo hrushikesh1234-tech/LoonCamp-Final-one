@@ -117,6 +117,48 @@ const getPropertyById = async (req, res) => {
   }
 };
 
+// Get single property by Slug (Public)
+const getPublicPropertyBySlug = async (req, res) => {
+  try {
+    const { slug } = req.params;
+
+    const result = await query(`
+      SELECT p.*,
+        (SELECT json_agg(json_build_object('id', pi.id, 'image_url', pi.image_url, 'display_order', pi.display_order) ORDER BY pi.display_order)
+         FROM property_images pi WHERE pi.property_id = p.id) as images
+      FROM properties p
+      WHERE p.slug = $1 AND p.is_active = true
+    `, [slug]);
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: 'Property not found.',
+      });
+    }
+
+    const property = {
+      ...result.rows[0],
+      amenities: JSON.parse(result.rows[0].amenities || '[]'),
+      activities: JSON.parse(result.rows[0].activities || '[]'),
+      highlights: JSON.parse(result.rows[0].highlights || '[]'),
+      policies: result.rows[0].policies ? JSON.parse(result.rows[0].policies) : [],
+      images: result.rows[0].images || [],
+    };
+
+    return res.status(200).json({
+      success: true,
+      data: property,
+    });
+  } catch (error) {
+    console.error('Get public property by slug error:', error);
+    return res.status(500).json({
+      success: false,
+      message: 'Failed to fetch property.',
+    });
+  }
+};
+
 // Create new property
 const createProperty = async (req, res) => {
   const client = await getClient();
@@ -499,6 +541,7 @@ const togglePropertyStatus = async (req, res) => {
 module.exports = {
   getAllProperties,
   getPublicProperties,
+  getPublicPropertyBySlug,
   getPropertyById,
   createProperty,
   updateProperty,

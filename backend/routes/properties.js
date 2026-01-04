@@ -5,6 +5,7 @@ const authMiddleware = require('../middleware/auth');
 
 // Public routes
 router.get('/public-list', propertyController.getPublicProperties);
+router.get('/public/:slug', propertyController.getPublicPropertyBySlug);
 
 // Protected routes (require authentication)
 router.get('/list', authMiddleware, propertyController.getAllProperties);
