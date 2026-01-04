@@ -158,20 +158,8 @@ const PropertyCard = ({
             {/* Gradient Overlay */}
             <div className="absolute inset-0 bg-gradient-to-t from-navy/80 via-navy/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-500" />
 
-            {/* Top Badge */}
-            {isTopSelling && (
-              <Badge className="absolute top-4 left-4 bg-primary text-primary-foreground font-medium px-3 py-1.5 shadow-gold border-none">
-                <Star className="w-3 h-3 mr-1 fill-current" />
-                Top Rated
-              </Badge>
-            )}
-
-            {/* Rating Badge */}
-            <div className="absolute top-4 right-4 flex flex-col items-end gap-2">
-              <div className="flex items-center gap-1 px-3 py-1.5 bg-card/90 backdrop-blur-md rounded-full">
-                <Star className="w-3 h-3 text-primary fill-primary" />
-                <span className="text-foreground text-sm font-medium">{rating}</span>
-              </div>
+            {/* Top Badges */}
+            <div className="absolute top-4 left-4 flex flex-col gap-2 z-10">
               <Badge 
                 className={`border-none shadow-sm font-semibold uppercase tracking-wider text-[10px] px-2.5 py-1 ${
                   isAvailable 
@@ -181,6 +169,20 @@ const PropertyCard = ({
               >
                 {isAvailable ? "Available" : "Booked"}
               </Badge>
+              {isTopSelling && (
+                <Badge className="bg-primary text-primary-foreground font-medium px-3 py-1.5 shadow-gold border-none flex items-center gap-1">
+                  <Star className="w-3 h-3 fill-current" />
+                  Top Rated
+                </Badge>
+              )}
+            </div>
+
+            {/* Rating Badge */}
+            <div className="absolute top-4 right-4 flex flex-col items-end gap-2">
+              <div className="flex items-center gap-1 px-3 py-1.5 bg-card/90 backdrop-blur-md rounded-full">
+                <Star className="w-3 h-3 text-primary fill-primary" />
+                <span className="text-foreground text-sm font-medium">{rating}</span>
+              </div>
             </div>
 
             {/* Quick Action Overlay (Mobile Friendly) */}
