@@ -205,7 +205,7 @@ const Properties = () => {
               className="mb-24 md:mb-32 scroll-mt-28"
             >
               <div className="mb-12">
-                <div className="flex justify-between items-end">
+                <div className="flex flex-col md:flex-row md:justify-between md:items-end gap-6">
                   <div>
                     <h3 className="font-display text-2xl md:text-3xl text-foreground font-semibold mb-2">
                       {category.label}
@@ -215,11 +215,19 @@ const Properties = () => {
                     </p>
                   </div>
                   {isClosed && (
-                    <div className="bg-destructive/10 border border-destructive/20 rounded-lg p-3 text-right max-w-md">
-                      <p className="text-destructive font-bold text-sm uppercase tracking-wider mb-1">Notice: Temporarily Closed</p>
-                      <p className="text-foreground font-medium">{setting.reason}</p>
+                    <div className="bg-destructive/5 border border-destructive/20 rounded-xl p-5 md:p-6 text-left md:text-right max-w-full md:max-w-md backdrop-blur-sm animate-fade-in">
+                      <div className="flex items-center gap-2 mb-2 md:justify-end">
+                        <div className="w-2 h-2 rounded-full bg-destructive animate-pulse" />
+                        <p className="text-destructive font-bold text-xs md:text-sm uppercase tracking-[0.2em]">Temporarily Closed</p>
+                      </div>
+                      <p className="text-foreground font-semibold text-lg mb-2 leading-tight">{setting.reason}</p>
                       {setting.from && setting.to && (
-                        <p className="text-muted-foreground text-xs mt-1">Period: {new Date(setting.from).toLocaleDateString()} - {new Date(setting.to).toLocaleDateString()}</p>
+                        <div className="flex flex-col gap-1 mt-3">
+                          <p className="text-muted-foreground text-xs font-medium">Expected Closure Period</p>
+                          <p className="text-foreground/80 text-sm font-medium">
+                            {new Date(setting.from).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })} - {new Date(setting.to).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
+                          </p>
+                        </div>
                       )}
                     </div>
                   )}
@@ -228,7 +236,7 @@ const Properties = () => {
 
               {/* Properties Grid */}
               <div
-                className={`grid sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10 transition-opacity duration-300 ${isClosed ? 'opacity-40 grayscale pointer-events-none' : 'opacity-100'}`}
+                className={`grid sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10 transition-all duration-500 ${isClosed ? 'opacity-30 grayscale pointer-events-none scale-[0.98]' : 'opacity-100'}`}
                 data-testid={`grid-properties-${category.id}`}
               >
                 {categoryProperties.map((property, index) => (
@@ -244,8 +252,12 @@ const Properties = () => {
               </div>
               
               {isClosed && categoryProperties.length > 0 && (
-                <div className="mt-8 text-center">
-                  <p className="text-muted-foreground italic">These properties are currently not accepting bookings.</p>
+                <div className="mt-12 text-center bg-secondary/20 rounded-2xl py-8 px-6 border border-border/50">
+                  <p className="text-muted-foreground font-medium italic">
+                    Bookings for {category.label} are currently paused. 
+                    <br className="hidden sm:block" />
+                    Please check back later or contact us for alternatives.
+                  </p>
                 </div>
               )}
             </div>
