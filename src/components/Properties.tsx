@@ -137,6 +137,12 @@ const Properties = () => {
     }
   };
 
+  const sortedCategories = [...categories].sort((a, b) => {
+    const aClosed = categorySettings[a.id]?.is_closed ? 1 : 0;
+    const bClosed = categorySettings[b.id]?.is_closed ? 1 : 0;
+    return aClosed - bClosed;
+  });
+
   return (
     <section id="properties" className="py-24 md:py-32 bg-secondary/30">
       {/* Background Pattern */}
@@ -174,7 +180,7 @@ const Properties = () => {
           <div className="flex justify-center py-6 md:py-8">
             <Tabs value={activeTab} onValueChange={handleTabChange} className="w-full max-w-2xl">
               <TabsList className="grid w-full grid-cols-3" data-testid="tabs-property-categories">
-                {categories.map((category) => (
+                {sortedCategories.map((category) => (
                   <TabsTrigger
                     key={category.id}
                     value={category.id}
@@ -192,7 +198,7 @@ const Properties = () => {
 
       <div className="container mx-auto px-6">
         {/* Properties Sections */}
-        {categories.map((category) => {
+        {sortedCategories.map((category) => {
           const setting = categorySettings[category.id];
           const isClosed = setting?.is_closed;
           const categoryProperties = properties.filter((p) => p.category === category.id);
