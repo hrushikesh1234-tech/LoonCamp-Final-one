@@ -122,7 +122,9 @@ const PropertyForm = () => {
         const formData = new FormData();
         formData.append('image', file);
         
+        console.log('Uploading file:', file.name);
         const response = await propertyAPI.uploadImage(formData);
+        console.log('Upload response:', response.data);
         
         if (!response.data.success) {
           throw new Error(response.data.message || 'Upload failed');
@@ -131,13 +133,20 @@ const PropertyForm = () => {
       });
 
       const uploadedUrls = await Promise.all(uploadPromises);
-      setFormData((prev) => ({
-        ...prev,
-        images: [...prev.images.filter(img => typeof img === 'string' && img.trim() !== ''), ...uploadedUrls],
-      }));
+      console.log('All uploaded URLs:', uploadedUrls);
+      
+      setFormData((prev) => {
+        const currentImages = Array.isArray(prev.images) ? prev.images : [];
+        const cleanedImages = currentImages.filter(img => typeof img === 'string' && img.trim() !== '');
+        return {
+          ...prev,
+          images: [...cleanedImages, ...uploadedUrls],
+        };
+      });
     } catch (error) {
-      alert(`Failed to upload images: ${error.message}`);
-      console.error(error);
+      const errorMsg = error.response?.data?.message || error.message;
+      alert(`Failed to upload images: ${errorMsg}`);
+      console.error('Upload error details:', error);
     } finally {
       setUploading(false);
     }
