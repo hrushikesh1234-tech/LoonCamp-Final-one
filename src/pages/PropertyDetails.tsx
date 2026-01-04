@@ -149,12 +149,12 @@ const PropertyDetails = () => {
   return (
     <>
       <Helmet>
-        <title>{propertyData.title} | LoonCamp</title>
-        <meta name="description" content={propertyData.description} />
+        <title>{propertyData.title} - Luxury {propertyData.category === 'camping' ? 'Pawna Camping' : 'Lonavala Booking'} | LoonCamp</title>
+        <meta name="description" content={`Book ${propertyData.title} at ${propertyData.location}. Luxury ${propertyData.category} with ${propertyData.amenities.slice(0, 5).join(', ')}. ${propertyData.description.substring(0, 100)}...`} />
         {/* Open Graph / WhatsApp Preview */}
         <meta property="og:type" content="website" />
-        <meta property="og:title" content={`${propertyData.title} | LoonCamp`} />
-        <meta property="og:description" content={`${propertyData.price} ${propertyData.priceNote} - ${propertyData.description.substring(0, 100)}...`} />
+        <meta property="og:title" content={`${propertyData.title} - ${propertyData.category} in ${propertyData.location}`} />
+        <meta property="og:description" content={`Stay at ${propertyData.title} for ${propertyData.price}. Perfect ${propertyData.category} experience near Pawna Lake & Lonavala.`} />
         <meta property="og:image" content={propertyData.image} />
         <meta property="og:url" content={window.location.href} />
       </Helmet>

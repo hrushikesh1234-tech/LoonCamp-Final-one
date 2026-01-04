@@ -10,16 +10,16 @@ const Index = () => {
   return (
     <>
       <Helmet>
-        <title>LoonCamp - Book Resorts & Cottages Near Pawna Lake, Lonavala</title>
+        <title>LoonCamp - #1 Luxury Pawna Lake Camping & Lonavala Villa Booking</title>
         <meta
           name="description"
-          content="Book luxury glamping domes, cottages, and resorts near Pawna Lake and Lonavala. Experience nature with private pools, lake views, and all-inclusive packages."
+          content="LoonCamp offers the best luxury glamping domes at Pawna Lake and premium villas in Lonavala. Book lakeside camping with pool, AC, and meals. Top-rated stays near Mumbai & Pune."
         />
         <meta
           name="keywords"
-          content="Pawna Lake resorts, Lonavala cottages, glamping, dome resort, lakeside stay, weekend getaway"
+          content="Pawna camping, Pawna Lake resorts, Lonavala villa booking, glamping near Mumbai, luxury dome resort, lakeside stay Lonavala"
         />
-        <link rel="canonical" href="https://leestays.com" />
+        <link rel="canonical" href="https://looncamp.com" />
       </Helmet>
 
       <div className="min-h-screen">
