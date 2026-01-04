@@ -44,6 +44,24 @@ CREATE TABLE IF NOT EXISTS property_images (
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+-- Create category_settings table
+CREATE TABLE IF NOT EXISTS category_settings (
+  id SERIAL PRIMARY KEY,
+  category VARCHAR(50) UNIQUE NOT NULL,
+  is_active BOOLEAN DEFAULT true,
+  base_price VARCHAR(50),
+  description TEXT,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Insert default category settings
+INSERT INTO category_settings (category, is_active, base_price, description)
+VALUES 
+  ('camping', true, '₹1,499', 'Outdoor tent stay experiences'),
+  ('cottage', true, '₹3,999', 'Cozy wooden cottage stays'),
+  ('villa', true, '₹8,999', 'Luxury private villa stays')
+ON CONFLICT (category) DO NOTHING;
+
 -- Create indexes for better performance
 CREATE INDEX IF NOT EXISTS idx_properties_slug ON properties(slug);
 CREATE INDEX IF NOT EXISTS idx_properties_category ON properties(category);
