@@ -225,7 +225,7 @@ const Properties = () => {
               <div className="mb-12">
                 <div className="flex flex-col md:flex-row md:justify-between md:items-end gap-6">
                   <div>
-                    <h3 className="font-display text-2xl md:text-3xl text-foreground font-semibold mb-2">
+                    <h3 className="font-display text-4xl md:text-5xl lg:text-6xl text-foreground font-extrabold mb-4 drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)] tracking-tight">
                       {category.label}
                     </h3>
                     <p className="text-muted-foreground text-base">
