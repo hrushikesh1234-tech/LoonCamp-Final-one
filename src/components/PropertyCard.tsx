@@ -91,12 +91,23 @@ const PropertyCard = ({
     touchEndX.current = null;
   };
 
+  const handleNavigate = () => {
+    const activeTab = document.querySelector('[data-state="active"][data-testid^="button-tab-"]');
+    if (activeTab) {
+      const tabId = activeTab.getAttribute('data-testid')?.replace('button-tab-', '');
+      if (tabId) {
+        sessionStorage.setItem('activeCategoryTab', tabId);
+      }
+    }
+    navigate(`/property/${navigationId}`);
+  };
+
   return (
     <div className="group h-full">
       <div className="bg-card rounded-3xl overflow-hidden shadow-card hover:shadow-card-hover transition-all duration-700 hover:-translate-y-2 cursor-pointer h-full relative border border-border/50">
         <div 
           className="block h-full"
-          onClick={() => navigate(`/property/${navigationId}`)}
+          onClick={handleNavigate}
         >
           {/* Image Container */}
           <div 

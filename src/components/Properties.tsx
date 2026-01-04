@@ -47,6 +47,20 @@ const Properties = () => {
   };
 
   useEffect(() => {
+    // Scroll restoration logic
+    const savedTab = sessionStorage.getItem('activeCategoryTab');
+    if (savedTab) {
+      setActiveTab(savedTab);
+      // Small delay to ensure the DOM is ready for scrolling
+      setTimeout(() => {
+        const ref = sectionRefs[savedTab as keyof typeof sectionRefs];
+        if (ref?.current) {
+          ref.current.scrollIntoView({ behavior: "instant", block: "start" });
+        }
+      }, 100);
+      sessionStorage.removeItem('activeCategoryTab');
+    }
+
     const fetchProperties = async () => {
       try {
         const response = await propertyAPI.getPublicList();
