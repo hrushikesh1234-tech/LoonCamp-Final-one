@@ -62,7 +62,7 @@ const getPublicProperties = async (req, res) => {
          FROM property_images pi WHERE pi.property_id = p.id) as images
       FROM properties p
       WHERE p.is_active = true
-      ORDER BY p.is_top_selling DESC, p.created_at DESC
+      ORDER BY p.is_available DESC, p.is_top_selling DESC, p.created_at DESC
     `);
 
     const properties = result.rows.map(prop => ({
