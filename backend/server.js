@@ -104,6 +104,7 @@ app.listen(PORT, '0.0.0.0', () => {
   console.log(`\n=================================`);
   console.log(`LoonCamp API Server`);
   console.log(`=================================`);
+  console.log(`Cloudinary Config: { cloud_name: ${process.env.CLOUDINARY_CLOUD_NAME ? 'Present' : 'Missing'}, api_key: ${process.env.CLOUDINARY_API_KEY ? 'Present' : 'Missing'}, api_secret: ${process.env.CLOUDINARY_API_SECRET ? 'Present' : 'Missing'} }`);
   console.log(`Server running on port ${PORT}`);
   console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
   console.log(`API Base URL: http://localhost:${PORT}/api`);
