@@ -38,15 +38,30 @@ const Dashboard = () => {
   };
 
   const handleToggleCategory = async (category, currentStatus) => {
-    const reason = !currentStatus ? window.prompt('Enter closure reason:', 'Maintenance') : '';
-    if (!currentStatus && reason === null) return;
+    let reason = '';
+    let closedFrom = null;
+    let closedTo = null;
+
+    if (!currentStatus) {
+      reason = window.prompt('Enter closure reason (Description):', 'Maintenance');
+      if (reason === null) return;
+      
+      const period = window.prompt('Enter Expected Closure Period (e.g., 5th Jan - 10th Jan):', '');
+      if (period === null) return;
+      
+      // Store the custom period string in the closed_from field
+      closedFrom = period;
+      // Use a dummy date for closed_to to satisfy any potential date type constraints in DB 
+      // or just leave it if the column allows text.
+      closedTo = new Date().toISOString().split('T')[0];
+    }
     
     try {
       const response = await propertyAPI.updateCategorySettings(category, {
         is_closed: !currentStatus,
         closed_reason: reason,
-        closed_from: !currentStatus ? new Date().toISOString().split('T')[0] : null,
-        closed_to: !currentStatus ? new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0] : null
+        closed_from: closedFrom,
+        closed_to: closedTo
       });
       if (response.data.success) {
         fetchData();

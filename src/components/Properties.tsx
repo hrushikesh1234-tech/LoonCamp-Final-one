@@ -243,7 +243,7 @@ const Properties = () => {
                         <div className="flex flex-col gap-1 mt-3">
                           <p className="text-muted-foreground text-xs font-medium">Expected Closure Period</p>
                           <p className="text-foreground/80 text-sm font-medium">
-                            {new Date(setting.from).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })} - {new Date(setting.to).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
+                            {setting.from.includes('-') ? setting.from : new Date(setting.from).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' }) + ' - ' + new Date(setting.to).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
                           </p>
                         </div>
                       )}
