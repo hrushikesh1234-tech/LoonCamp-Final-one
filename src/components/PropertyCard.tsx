@@ -159,25 +159,25 @@ const PropertyCard = ({
             <div className="absolute inset-0 bg-gradient-to-t from-navy/80 via-navy/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-500" />
 
             {/* Top Badges */}
-            <div className="absolute top-4 left-4 flex flex-col gap-2 z-10">
+            <div className="absolute top-2.5 left-2.5 flex flex-col gap-1.5 z-10">
               <Badge 
-                className={`border-none shadow-2xl font-bold uppercase tracking-[0.15em] text-[10px] px-3 py-1.5 transition-transform duration-300 hover:scale-105 ${
+                className={`border-none shadow-xl font-bold uppercase tracking-[0.12em] text-[8px] px-2 py-1 transition-transform duration-300 hover:scale-105 ${
                   isAvailable 
                     ? "bg-[#121212] text-[#00FF41] ring-1 ring-[#00FF41]/30" 
                     : "bg-[#121212] text-[#FF4500] ring-1 ring-[#FF4500]/30"
                 }`}
                 style={{
                   textShadow: isAvailable 
-                    ? "0 0 1px rgba(0,255,65,0.8), 1px 1px 2px rgba(0,0,0,1)" 
-                    : "0 0 1px rgba(255,69,0,0.8), 1px 1px 2px rgba(0,0,0,1)",
-                  boxShadow: "inset 0 1px 1px rgba(255,255,255,0.1), 0 4px 6px -1px rgba(0,0,0,0.5)"
+                    ? "0 0 1px rgba(0,255,65,0.8), 0.5px 0.5px 1px rgba(0,0,0,1)" 
+                    : "0 0 1px rgba(255,69,0,0.8), 0.5px 0.5px 1px rgba(0,0,0,1)",
+                  boxShadow: "inset 0 0.5px 0.5px rgba(255,255,255,0.05), 0 3px 5px -1px rgba(0,0,0,0.5)"
                 }}
               >
                 {isAvailable ? "Available" : "Booked"}
               </Badge>
               {isTopSelling && (
-                <Badge className="bg-primary text-primary-foreground font-medium px-3 py-1.5 shadow-gold border-none flex items-center gap-1">
-                  <Star className="w-3 h-3 fill-current" />
+                <Badge className="bg-primary text-primary-foreground font-medium px-2 py-1 text-[8px] shadow-gold border-none flex items-center gap-1">
+                  <Star className="w-2.5 h-2.5 fill-current" />
                   Top Rated
                 </Badge>
               )}
