@@ -159,7 +159,7 @@ const Properties = () => {
                     key={category.id}
                     value={category.id}
                     data-testid={`button-tab-${category.id}`}
-                    className="text-sm md:text-base data-[state=active]:text-[#FE28A2] data-[state=active]:drop-shadow-[0_0_8px_rgba(254,40,162,0.6)] transition-all duration-300"
+                    className="text-sm md:text-base data-[state=active]:text-[#FE28A2] data-[state=active]:drop-shadow-[0_0_6.4px_rgba(254,40,162,0.48)] transition-all duration-300"
                   >
                     {category.label}
                   </TabsTrigger>
