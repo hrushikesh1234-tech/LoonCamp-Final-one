@@ -121,10 +121,10 @@ const PropertyForm = () => {
       const uploadPromises = files.map(async (file) => {
         const formData = new FormData();
         formData.append('file', file);
-        formData.append('upload_preset', 'hpnsc90q');
+        formData.append('upload_preset', process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET);
         
         const response = await fetch(
-          `https://api.cloudinary.com/v1_1/dcw0z9qzm/image/upload`,
+          `https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME}/image/upload`,
           {
             method: 'POST',
             body: formData,
