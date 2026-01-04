@@ -52,6 +52,11 @@ export const propertyAPI = {
   delete: (id) => api.delete(`/properties/delete/${id}`),
   toggleStatus: (id, field, value) =>
     api.patch(`/properties/toggle-status/${id}`, { field, value }),
+  uploadImage: (formData) => api.post('/properties/upload-image', formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  }),
 };
 
 export default api;

@@ -15,4 +15,16 @@ router.put('/update/:id', authMiddleware, propertyController.updateProperty);
 router.delete('/delete/:id', authMiddleware, propertyController.deleteProperty);
 router.patch('/toggle-status/:id', authMiddleware, propertyController.togglePropertyStatus);
 
+const { upload } = require('../utils/cloudinary');
+router.post('/upload-image', authMiddleware, upload.single('image'), (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ success: false, message: 'No file uploaded' });
+    }
+    res.json({ success: true, url: req.file.path });
+  } catch (error) {
+    res.status(500).json({ success: false, message: 'Upload failed', error: error.message });
+  }
+});
+
 module.exports = router;
