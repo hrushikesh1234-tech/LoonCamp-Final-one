@@ -516,10 +516,10 @@ const togglePropertyStatus = async (req, res) => {
       });
     }
 
-    if (!['is_active', 'is_top_selling'].includes(field)) {
+    if (!['is_active', 'is_top_selling', 'is_available'].includes(field)) {
       return res.status(400).json({
         success: false,
-        message: 'Invalid field. Only is_active and is_top_selling can be toggled.',
+        message: 'Invalid field. Only is_active, is_top_selling and is_available can be toggled.',
       });
     }
 
