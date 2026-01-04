@@ -161,11 +161,17 @@ const PropertyCard = ({
             {/* Top Badges */}
             <div className="absolute top-4 left-4 flex flex-col gap-2 z-10">
               <Badge 
-                className={`border-none shadow-sm font-semibold uppercase tracking-wider text-[10px] px-2.5 py-1 ${
+                className={`border-none shadow-2xl font-bold uppercase tracking-[0.15em] text-[10px] px-3 py-1.5 transition-transform duration-300 hover:scale-105 ${
                   isAvailable 
-                    ? "bg-[#00FF41]/20 text-[#00FF41] backdrop-blur-md" 
-                    : "bg-[#FF4500]/20 text-[#FF4500] backdrop-blur-md"
+                    ? "bg-[#121212] text-[#00FF41] ring-1 ring-[#00FF41]/30" 
+                    : "bg-[#121212] text-[#FF4500] ring-1 ring-[#FF4500]/30"
                 }`}
+                style={{
+                  textShadow: isAvailable 
+                    ? "0 0 1px rgba(0,255,65,0.8), 1px 1px 2px rgba(0,0,0,1)" 
+                    : "0 0 1px rgba(255,69,0,0.8), 1px 1px 2px rgba(0,0,0,1)",
+                  boxShadow: "inset 0 1px 1px rgba(255,255,255,0.1), 0 4px 6px -1px rgba(0,0,0,0.5)"
+                }}
               >
                 {isAvailable ? "Available" : "Booked"}
               </Badge>
