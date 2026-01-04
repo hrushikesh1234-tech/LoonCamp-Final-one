@@ -118,20 +118,30 @@ const PropertyForm = () => {
 
     setUploading(true);
     try {
+      const cloudName = process.env.REACT_APP_CLOUDINARY_CLOUD_NAME || window._env_?.REACT_APP_CLOUDINARY_CLOUD_NAME;
+      const uploadPreset = process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET || window._env_?.REACT_APP_CLOUDINARY_UPLOAD_PRESET;
+
+      if (!cloudName || !uploadPreset) {
+        throw new Error('Cloudinary configuration is missing. Please check environment variables.');
+      }
+
       const uploadPromises = files.map(async (file) => {
         const formData = new FormData();
         formData.append('file', file);
-        formData.append('upload_preset', process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET);
+        formData.append('upload_preset', uploadPreset);
         
         const response = await fetch(
-          `https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME}/image/upload`,
+          `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
           {
             method: 'POST',
             body: formData,
           }
         );
         
-        if (!response.ok) throw new Error('Upload failed');
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.error?.message || 'Upload failed');
+        }
         const data = await response.json();
         return data.secure_url;
       });
@@ -139,10 +149,10 @@ const PropertyForm = () => {
       const uploadedUrls = await uploadPromises;
       setFormData((prev) => ({
         ...prev,
-        images: [...prev.images.filter(img => img.trim() !== ''), ...uploadedUrls],
+        images: [...prev.images.filter(img => typeof img === 'string' && img.trim() !== ''), ...uploadedUrls],
       }));
     } catch (error) {
-      alert('Failed to upload images. Please check your Cloudinary configuration.');
+      alert(`Failed to upload images: ${error.message}`);
       console.error(error);
     } finally {
       setUploading(false);
