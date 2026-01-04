@@ -42,6 +42,11 @@ const PropertyForm = () => {
       const response = await propertyAPI.getById(id);
       if (response.data.success) {
         const property = response.data.data;
+        // Ensure images are strings
+        const imageUrls = Array.isArray(property.images) 
+          ? property.images.map(img => typeof img === 'string' ? img : img.image_url).filter(Boolean)
+          : [];
+          
         setFormData({
           title: property.title || '',
           description: property.description || '',
@@ -61,10 +66,7 @@ const PropertyForm = () => {
           activities: property.activities?.length > 0 ? property.activities : [''],
           highlights: property.highlights?.length > 0 ? property.highlights : [''],
           policies: property.policies?.length > 0 ? property.policies : [''],
-          images:
-            property.images?.length > 0
-              ? property.images.map((img) => img.image_url)
-              : [''],
+          images: imageUrls.length > 0 ? imageUrls : [''],
         });
       }
     } catch (error) {
@@ -119,10 +121,10 @@ const PropertyForm = () => {
       const uploadPromises = files.map(async (file) => {
         const formData = new FormData();
         formData.append('file', file);
-        formData.append('upload_preset', process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET || 'looncamp_preset');
+        formData.append('upload_preset', 'dcw0z9qzm');
         
         const response = await fetch(
-          `https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME || 'dcw0z9qzm'}/image/upload`,
+          `https://api.cloudinary.com/v1_1/dcw0z9qzm/image/upload`,
           {
             method: 'POST',
             body: formData,
@@ -532,12 +534,12 @@ const PropertyForm = () => {
             </div>
 
             <div className="image-previews" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))', gap: '15px', marginBottom: '20px' }}>
-              {formData.images.filter(url => url.trim() !== '').map((image, index) => (
+              {formData.images.filter(url => typeof url === 'string' && url.trim() !== '').map((image, index) => (
                 <div key={index} className="image-preview-item" style={{ position: 'relative', borderRadius: '8px', overflow: 'hidden', border: '1px solid #ddd' }}>
                   <img 
-                    src={image.replace('/upload/', '/upload/w_300,f_auto,q_auto/')} 
+                    src={typeof image === 'string' ? image.replace('/upload/', '/upload/w_300,f_auto,q_auto/') : ''} 
                     alt={`Property ${index + 1}`} 
-                    style={{ width: '100%', height: '120px', objectCover: 'cover' }}
+                    style={{ width: '100%', height: '120px', objectFit: 'cover' }}
                   />
                   <button
                     type="button"
