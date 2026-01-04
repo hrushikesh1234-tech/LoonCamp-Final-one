@@ -77,6 +77,18 @@ const Properties = () => {
           setProperties(mappedProperties);
           if (response.categorySettings) {
             setCategorySettings(response.categorySettings);
+            
+            // Auto-select the first category based on dynamic sort
+            const sorted = [...categories].sort((a, b) => {
+              const aClosed = response.categorySettings[a.id]?.is_closed ? 1 : 0;
+              const bClosed = response.categorySettings[b.id]?.is_closed ? 1 : 0;
+              return aClosed - bClosed;
+            });
+            
+            const savedTab = sessionStorage.getItem('activeCategoryTab');
+            if (!savedTab && sorted.length > 0) {
+              setActiveTab(sorted[0].id);
+            }
           }
         }
       } catch (error) {
