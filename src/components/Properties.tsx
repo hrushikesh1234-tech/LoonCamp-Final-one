@@ -69,6 +69,7 @@ const Properties = () => {
           const mappedProperties = response.data.map((p: any) => ({
             ...p,
             priceNote: p.price_note,
+            isAvailable: p.is_available,
             image: p.images && p.images.length > 0 ? p.images[0].image_url : "https://images.unsplash.com/photo-1571508601166-972e0a1f3ced?w=800",
             images: p.images ? p.images.map((img: any) => img.image_url) : []
           }));

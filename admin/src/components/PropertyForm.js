@@ -22,6 +22,7 @@ const PropertyForm = () => {
     status: 'Verified',
     is_top_selling: false,
     is_active: true,
+    is_available: true,
     contact: '+91 8669505727',
     amenities: [''],
     activities: [''],
@@ -61,6 +62,7 @@ const PropertyForm = () => {
           status: property.status || 'Verified',
           is_top_selling: property.is_top_selling || false,
           is_active: property.is_active !== undefined ? property.is_active : true,
+          is_available: property.is_available !== undefined ? property.is_available : true,
           contact: property.contact || '+91 8669505727',
           amenities: property.amenities?.length > 0 ? property.amenities : [''],
           activities: property.activities?.length > 0 ? property.activities : [''],
@@ -379,6 +381,17 @@ const PropertyForm = () => {
                 onChange={handleChange}
               />
               <label htmlFor="is_active">Active (visible to public)</label>
+            </div>
+
+            <div className="checkbox-group">
+              <input
+                type="checkbox"
+                id="is_available"
+                name="is_available"
+                checked={formData.is_available}
+                onChange={handleChange}
+              />
+              <label htmlFor="is_available">Available (Booked if unchecked)</label>
             </div>
 
             <div className="checkbox-group">

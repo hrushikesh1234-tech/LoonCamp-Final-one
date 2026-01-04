@@ -178,6 +178,7 @@ const createProperty = async (req, res) => {
       status,
       is_top_selling,
       is_active,
+      is_available,
       contact,
       amenities,
       activities,
@@ -204,9 +205,9 @@ const createProperty = async (req, res) => {
     const propertyResult = await client.query(
       `INSERT INTO properties (
         title, slug, description, category, location, rating, price, price_note,
-        capacity, check_in_time, check_out_time, status, is_top_selling, is_active,
+        capacity, check_in_time, check_out_time, status, is_top_selling, is_active, is_available,
         contact, amenities, activities, highlights, policies, updated_at
-      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, CURRENT_TIMESTAMP)
+      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, CURRENT_TIMESTAMP)
       RETURNING *`,
       [
         title,
@@ -223,6 +224,7 @@ const createProperty = async (req, res) => {
         status || 'Verified',
         is_top_selling || false,
         is_active !== undefined ? is_active : true,
+        is_available !== undefined ? is_available : true,
         contact || '+91 8669505727',
         JSON.stringify(amenities || []),
         JSON.stringify(activities || []),
@@ -294,6 +296,7 @@ const updateProperty = async (req, res) => {
       status,
       is_top_selling,
       is_active,
+      is_available,
       contact,
       amenities,
       activities,
@@ -389,6 +392,11 @@ const updateProperty = async (req, res) => {
     if (is_active !== undefined) {
       updates.push(`is_active = $${paramCount}`);
       values.push(is_active);
+      paramCount++;
+    }
+    if (is_available !== undefined) {
+      updates.push(`is_available = $${paramCount}`);
+      values.push(is_available);
       paramCount++;
     }
     if (contact !== undefined) {

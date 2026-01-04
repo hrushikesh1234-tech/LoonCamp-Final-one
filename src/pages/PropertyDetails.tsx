@@ -81,6 +81,7 @@ interface PropertyDetail {
   activities: string[];
   policies?: string[];
   contact?: string;
+  is_available: boolean;
 }
 
 const PropertyDetails = () => {
@@ -100,6 +101,7 @@ const PropertyDetails = () => {
           setPropertyData({
             ...p,
             priceNote: p.price_note,
+            is_available: p.is_available,
             image: p.images && p.images.length > 0 ? p.images[0].image_url : "https://images.unsplash.com/photo-1571508601166-972e0a1f3ced?w=1200",
             images: p.images ? p.images.map((img: any) => img.image_url) : []
           });
@@ -226,10 +228,11 @@ const PropertyDetails = () => {
                     <Dialog>
                       <DialogTrigger asChild>
                         <Button
-                          className="w-full bg-primary text-primary-foreground hover:bg-gold-light h-16 rounded-2xl text-lg font-bold shadow-gold hover:shadow-gold-lg transition-all active:scale-95 flex items-center justify-center gap-3"
+                          disabled={!propertyData.is_available}
+                          className="w-full bg-primary text-primary-foreground hover:bg-gold-light h-16 rounded-2xl text-lg font-bold shadow-gold hover:shadow-gold-lg transition-all active:scale-95 flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed"
                         >
                           <MessageCircle className="w-6 h-6" />
-                          Book Your Stay
+                          {propertyData.is_available ? "Book Your Stay" : "Currently Booked"}
                         </Button>
                       </DialogTrigger>
                       <DialogContent className="sm:max-w-[500px] rounded-[2rem] overflow-hidden">
@@ -303,11 +306,20 @@ const PropertyDetails = () => {
             <div className="lg:col-span-8 space-y-8">
               {/* Main Info */}
               <div className="bg-card rounded-3xl p-8 md:p-10 shadow-sm border border-border/50">
-                <div className="flex flex-wrap items-center gap-3 mb-6">
-                  <Badge variant="secondary" className="bg-primary/10 text-primary border-none text-[10px] uppercase tracking-[0.2em] font-bold px-3 py-1">
-                    {propertyData.category}
-                  </Badge>
-                  <div className="flex items-center gap-1.5 px-3 py-1 bg-secondary rounded-full text-xs font-medium text-muted-foreground">
+                  <div className="flex flex-wrap items-center gap-3 mb-6">
+                    <Badge variant="secondary" className="bg-primary/10 text-primary border-none text-[10px] uppercase tracking-[0.2em] font-bold px-3 py-1">
+                      {propertyData.category}
+                    </Badge>
+                    <Badge 
+                      className={`border-none shadow-sm font-semibold uppercase tracking-wider text-[10px] px-3 py-1 ${
+                        propertyData.is_available 
+                          ? "bg-[#00FF41]/20 text-[#00FF41]" 
+                          : "bg-[#FF4500]/20 text-[#FF4500]"
+                      }`}
+                    >
+                      {propertyData.is_available ? "Available" : "Booked"}
+                    </Badge>
+                    <div className="flex items-center gap-1.5 px-3 py-1 bg-secondary rounded-full text-xs font-medium text-muted-foreground">
                     <MapPin className="w-3.5 h-3.5" />
                     {propertyData.location}
                   </div>
@@ -453,10 +465,11 @@ const PropertyDetails = () => {
                     <Dialog>
                       <DialogTrigger asChild>
                         <Button
-                          className="w-full bg-primary text-primary-foreground hover:bg-gold-light h-16 rounded-2xl text-lg font-bold shadow-gold hover:shadow-gold-lg transition-all active:scale-95 flex items-center justify-center gap-3"
+                          disabled={!propertyData.is_available}
+                          className="w-full bg-primary text-primary-foreground hover:bg-gold-light h-16 rounded-2xl text-lg font-bold shadow-gold hover:shadow-gold-lg transition-all active:scale-95 flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed"
                         >
                           <MessageCircle className="w-6 h-6" />
-                          Book Your Stay
+                          {propertyData.is_available ? "Book Your Stay" : "Currently Booked"}
                         </Button>
                       </DialogTrigger>
                       <DialogContent className="sm:max-w-[500px] rounded-[2rem] overflow-hidden">

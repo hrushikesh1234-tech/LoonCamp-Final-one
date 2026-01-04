@@ -15,6 +15,7 @@ interface PropertyCardProps {
   priceNote: string;
   amenities: string[];
   isTopSelling?: boolean;
+  isAvailable?: boolean;
   location?: string;
   rating?: number;
 }
@@ -29,6 +30,7 @@ const PropertyCard = ({
   priceNote,
   amenities,
   isTopSelling = false,
+  isAvailable = true,
   location = "Pawna Lake",
   rating = 4.9,
 }: PropertyCardProps) => {
@@ -165,9 +167,20 @@ const PropertyCard = ({
             )}
 
             {/* Rating Badge */}
-            <div className="absolute top-4 right-4 flex items-center gap-1 px-3 py-1.5 bg-card/90 backdrop-blur-md rounded-full">
-              <Star className="w-3 h-3 text-primary fill-primary" />
-              <span className="text-foreground text-sm font-medium">{rating}</span>
+            <div className="absolute top-4 right-4 flex flex-col items-end gap-2">
+              <div className="flex items-center gap-1 px-3 py-1.5 bg-card/90 backdrop-blur-md rounded-full">
+                <Star className="w-3 h-3 text-primary fill-primary" />
+                <span className="text-foreground text-sm font-medium">{rating}</span>
+              </div>
+              <Badge 
+                className={`border-none shadow-sm font-semibold uppercase tracking-wider text-[10px] px-2.5 py-1 ${
+                  isAvailable 
+                    ? "bg-[#00FF41]/20 text-[#00FF41] backdrop-blur-md" 
+                    : "bg-[#FF4500]/20 text-[#FF4500] backdrop-blur-md"
+                }`}
+              >
+                {isAvailable ? "Available" : "Booked"}
+              </Badge>
             </div>
 
             {/* Quick Action Overlay (Mobile Friendly) */}
