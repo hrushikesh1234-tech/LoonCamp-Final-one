@@ -24,6 +24,17 @@ app.use((req, res, next) => {
 // Serve static files from React admin panel
 app.use('/admin', express.static(path.join(__dirname, '../admin/build')));
 
+// Inject environment variables into the admin panel
+app.get('/admin/config.js', (req, res) => {
+  const config = {
+    REACT_APP_CLOUDINARY_CLOUD_NAME: process.env.REACT_APP_CLOUDINARY_CLOUD_NAME,
+    REACT_APP_CLOUDINARY_UPLOAD_PRESET: process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET,
+    REACT_APP_API_URL: process.env.REACT_APP_API_URL || '/api'
+  };
+  res.header('Content-Type', 'application/javascript');
+  res.send(`window._env_ = ${JSON.stringify(config)};`);
+});
+
 app.get('/admin/*', (req, res) => {
   res.sendFile(path.resolve(__dirname, '../admin/build/index.html'));
 });
