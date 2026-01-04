@@ -72,6 +72,14 @@ app.use('/api/*', (req, res) => {
 // Error handling middleware
 app.use((err, req, res, next) => {
   console.error('Global error handler:', err);
+  
+  if (err.message && err.message.includes('File size too large')) {
+    return res.status(400).json({
+      success: false,
+      message: 'Image file size is too large (max 10MB). Please compress the image or use a smaller file.',
+    });
+  }
+
   res.status(500).json({
     success: false,
     message: 'Internal server error',
