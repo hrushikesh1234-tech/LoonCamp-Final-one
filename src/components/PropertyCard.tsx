@@ -6,6 +6,7 @@ import { useState, useRef } from "react";
 
 interface PropertyCardProps {
   id?: string;
+  slug?: string;
   images?: string[];
   image: string; // fallback for single image
   title: string;
@@ -19,6 +20,7 @@ interface PropertyCardProps {
 
 const PropertyCard = ({
   id = "1",
+  slug,
   images,
   image,
   title,
@@ -35,11 +37,12 @@ const PropertyCard = ({
   const touchEndX = useRef<number | null>(null);
   
   const propertyImages = images && images.length > 0 ? images : [image];
+  const navigationId = slug || id;
 
   const handleShare = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    const shareUrl = `${window.location.origin}/property/${id}`;
+    const shareUrl = `${window.location.origin}/property/${navigationId}`;
     const text = `🏡 *${title}*\n📍 ${location}\n💰 *${price}* ${priceNote}\n\nCheck out this beautiful property on LoonCamp:\n${shareUrl}`;
     window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, '_blank');
   };
@@ -92,7 +95,7 @@ const PropertyCard = ({
       <div className="bg-card rounded-3xl overflow-hidden shadow-card hover:shadow-card-hover transition-all duration-700 hover:-translate-y-2 cursor-pointer h-full relative border border-border/50">
         <div 
           className="block h-full"
-          onClick={() => navigate(`/property/${id}`)}
+          onClick={() => navigate(`/property/${navigationId}`)}
         >
           {/* Image Container */}
           <div 
