@@ -4,8 +4,10 @@ import { propertyAPI, authAPI } from '../services/api';
 
 const Dashboard = () => {
   const [properties, setProperties] = useState([]);
+  const [categorySettings, setCategorySettings] = useState([]);
   const [loading, setLoading] = useState(true);
   const [admin, setAdmin] = useState(null);
+  const [activeCategory, setActiveCategory] = useState('all');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -13,19 +15,44 @@ const Dashboard = () => {
     if (adminData) {
       setAdmin(JSON.parse(adminData));
     }
-    fetchProperties();
+    fetchData();
   }, []);
 
-  const fetchProperties = async () => {
+  const fetchData = async () => {
     try {
-      const response = await propertyAPI.getAll();
-      if (response.data.success) {
-        setProperties(response.data.data);
+      const [propRes, settingsRes] = await Promise.all([
+        propertyAPI.getAll(),
+        propertyAPI.getCategorySettings()
+      ]);
+      if (propRes.data.success) {
+        setProperties(propRes.data.data);
+      }
+      if (settingsRes.data.success) {
+        setCategorySettings(settingsRes.data.data);
       }
     } catch (error) {
-      console.error('Failed to fetch properties:', error);
+      console.error('Failed to fetch data:', error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleToggleCategory = async (category, currentStatus) => {
+    const reason = !currentStatus ? window.prompt('Enter closure reason:', 'Maintenance') : '';
+    if (!currentStatus && reason === null) return;
+    
+    try {
+      const response = await propertyAPI.updateCategorySettings(category, {
+        is_closed: !currentStatus,
+        closed_reason: reason,
+        closed_from: !currentStatus ? new Date().toISOString().split('T')[0] : null,
+        closed_to: !currentStatus ? new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0] : null
+      });
+      if (response.data.success) {
+        fetchData();
+      }
+    } catch (error) {
+      alert('Failed to update category status');
     }
   };
 
@@ -133,14 +160,34 @@ const Dashboard = () => {
             <h3>{properties.length}</h3>
             <p>Total Properties</p>
           </div>
-          <div className="dashboard-card">
-            <h3>{activeProperties}</h3>
-            <p>Active Properties</p>
-          </div>
-          <div className="dashboard-card">
-            <h3>{topSellingProperties}</h3>
-            <p>Top Selling</p>
-          </div>
+          {categorySettings.map(setting => (
+            <div key={setting.category} className="dashboard-card" style={{ borderColor: setting.is_closed ? '#f56565' : '#48bb78' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <h3 style={{ textTransform: 'capitalize' }}>{setting.category}</h3>
+                <button 
+                  className={`btn ${setting.is_closed ? 'btn-success' : 'btn-danger'}`}
+                  style={{ padding: '4px 8px', fontSize: '12px' }}
+                  onClick={() => handleToggleCategory(setting.category, setting.is_closed)}
+                >
+                  {setting.is_closed ? 'Open' : 'Close'}
+                </button>
+              </div>
+              <p>{setting.is_closed ? 'Closed: ' + setting.closed_reason : 'Operational'}</p>
+            </div>
+          ))}
+        </div>
+
+        <div className="category-tabs" style={{ display: 'flex', gap: '10px', marginBottom: '20px', borderBottom: '1px solid #eee', paddingBottom: '10px' }}>
+          {['all', 'camping', 'cottage', 'villa'].map(cat => (
+            <button
+              key={cat}
+              className={`btn ${activeCategory === cat ? 'btn-primary' : 'btn-secondary'}`}
+              style={{ textTransform: 'capitalize' }}
+              onClick={() => setActiveCategory(cat)}
+            >
+              {cat}
+            </button>
+          ))}
         </div>
 
         <div className="properties-section">
@@ -174,7 +221,7 @@ const Dashboard = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {properties.map((property) => (
+                  {filteredProperties.map((property) => (
                     <tr key={property.id}>
                       <td>{property.id}</td>
                       <td>{property.title}</td>

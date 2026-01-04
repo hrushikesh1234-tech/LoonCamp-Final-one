@@ -31,4 +31,8 @@ router.post('/upload-image', authMiddleware, upload.single('image'), (req, res) 
 router.get('/settings/categories', authMiddleware, propertyController.getCategorySettings);
 router.put('/settings/categories/:category', authMiddleware, propertyController.updateCategorySettings);
 
+// Category Settings (Admin)
+router.get('/settings/categories', authMiddleware, propertyController.getCategorySettings);
+router.put('/settings/categories/:category', authMiddleware, propertyController.updateCategorySettings);
+
 module.exports = router;

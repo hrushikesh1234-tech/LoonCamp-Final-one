@@ -57,6 +57,8 @@ export const propertyAPI = {
       'Content-Type': 'multipart/form-data',
     },
   }),
+  getCategorySettings: () => api.get('/properties/settings/categories'),
+  updateCategorySettings: (category, data) => api.put(`/properties/settings/categories/${category}`, data),
 };
 
 export default api;

@@ -41,9 +41,21 @@ const getAllProperties = async (req, res) => {
   }
 };
 
-// Get public properties (only active)
+// Get public properties (only active and handling closed categories)
 const getPublicProperties = async (req, res) => {
   try {
+    // Fetch category settings
+    const settingsResult = await query('SELECT * FROM category_settings');
+    const categorySettings = {};
+    settingsResult.rows.forEach(s => {
+      categorySettings[s.category] = {
+        is_closed: s.is_closed,
+        reason: s.closed_reason,
+        from: s.closed_from,
+        to: s.closed_to
+      };
+    });
+
     const result = await query(`
       SELECT p.*,
         (SELECT json_agg(json_build_object('id', pi.id, 'image_url', pi.image_url, 'display_order', pi.display_order) ORDER BY pi.display_order)
@@ -65,12 +77,55 @@ const getPublicProperties = async (req, res) => {
     return res.status(200).json({
       success: true,
       data: properties,
+      categorySettings
     });
   } catch (error) {
     console.error('Get public properties error:', error);
     return res.status(500).json({
       success: false,
       message: 'Failed to fetch properties.',
+    });
+  }
+};
+
+// Category Settings (Admin)
+const getCategorySettings = async (req, res) => {
+  try {
+    const result = await query('SELECT * FROM category_settings ORDER BY category');
+    return res.status(200).json({
+      success: true,
+      data: result.rows
+    });
+  } catch (error) {
+    console.error('Get category settings error:', error);
+    return res.status(500).json({
+      success: false,
+      message: 'Failed to fetch settings.'
+    });
+  }
+};
+
+const updateCategorySettings = async (req, res) => {
+  try {
+    const { category } = req.params;
+    const { is_closed, closed_reason, closed_from, closed_to } = req.body;
+
+    await query(
+      `UPDATE category_settings 
+       SET is_closed = $1, closed_reason = $2, closed_from = $3, closed_to = $4, updated_at = CURRENT_TIMESTAMP
+       WHERE category = $5`,
+      [is_closed, closed_reason, closed_from, closed_to, category]
+    );
+
+    return res.status(200).json({
+      success: true,
+      message: 'Settings updated successfully.'
+    });
+  } catch (error) {
+    console.error('Update category settings error:', error);
+    return res.status(500).json({
+      success: false,
+      message: 'Failed to update settings.'
     });
   }
 };
@@ -555,4 +610,6 @@ module.exports = {
   updateProperty,
   deleteProperty,
   togglePropertyStatus,
+  getCategorySettings,
+  updateCategorySettings
 };

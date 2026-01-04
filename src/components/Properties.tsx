@@ -38,6 +38,7 @@ const categories = [
 const Properties = () => {
   const [activeTab, setActiveTab] = useState("camping");
   const [properties, setProperties] = useState<Property[]>([]);
+  const [categorySettings, setCategorySettings] = useState<any>({});
   const [loading, setLoading] = useState(true);
   const isAutoScrolling = useRef(false);
   const sectionRefs = {
@@ -74,6 +75,9 @@ const Properties = () => {
             images: p.images ? p.images.map((img: any) => img.image_url) : []
           }));
           setProperties(mappedProperties);
+          if (response.categorySettings) {
+            setCategorySettings(response.categorySettings);
+          }
         }
       } catch (error) {
         console.error("Failed to fetch properties:", error);
@@ -189,7 +193,10 @@ const Properties = () => {
       <div className="container mx-auto px-6">
         {/* Properties Sections */}
         {categories.map((category) => {
+          const setting = categorySettings[category.id];
+          const isClosed = setting?.is_closed;
           const categoryProperties = properties.filter((p) => p.category === category.id);
+          
           return (
             <div
               key={category.id}
@@ -198,17 +205,30 @@ const Properties = () => {
               className="mb-24 md:mb-32 scroll-mt-28"
             >
               <div className="mb-12">
-                <h3 className="font-display text-2xl md:text-3xl text-foreground font-semibold mb-2">
-                  {category.label}
-                </h3>
-                <p className="text-muted-foreground text-base">
-                  Best experiences in {category.location}
-                </p>
+                <div className="flex justify-between items-end">
+                  <div>
+                    <h3 className="font-display text-2xl md:text-3xl text-foreground font-semibold mb-2">
+                      {category.label}
+                    </h3>
+                    <p className="text-muted-foreground text-base">
+                      Best experiences in {category.location}
+                    </p>
+                  </div>
+                  {isClosed && (
+                    <div className="bg-destructive/10 border border-destructive/20 rounded-lg p-3 text-right max-w-md">
+                      <p className="text-destructive font-bold text-sm uppercase tracking-wider mb-1">Notice: Temporarily Closed</p>
+                      <p className="text-foreground font-medium">{setting.reason}</p>
+                      {setting.from && setting.to && (
+                        <p className="text-muted-foreground text-xs mt-1">Period: {new Date(setting.from).toLocaleDateString()} - {new Date(setting.to).toLocaleDateString()}</p>
+                      )}
+                    </div>
+                  )}
+                </div>
               </div>
 
               {/* Properties Grid */}
               <div
-                className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10"
+                className={`grid sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10 transition-opacity duration-300 ${isClosed ? 'opacity-40 grayscale pointer-events-none' : 'opacity-100'}`}
                 data-testid={`grid-properties-${category.id}`}
               >
                 {categoryProperties.map((property, index) => (
@@ -222,6 +242,12 @@ const Properties = () => {
                   </div>
                 ))}
               </div>
+              
+              {isClosed && categoryProperties.length > 0 && (
+                <div className="mt-8 text-center">
+                  <p className="text-muted-foreground italic">These properties are currently not accepting bookings.</p>
+                </div>
+              )}
             </div>
           );
         })}
