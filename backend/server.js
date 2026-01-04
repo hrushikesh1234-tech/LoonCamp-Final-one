@@ -22,7 +22,7 @@ app.use((req, res, next) => {
 });
 
 // Serve static files from React admin panel
-app.use('/admin', express.static(path.join(__dirname, '../admin/build')));
+app.use('/admin', express.static(path.join(__dirname, 'public/admin')));
 
 // Inject environment variables into the admin panel
 app.get('/admin/config.js', (req, res) => {
@@ -36,7 +36,7 @@ app.get('/admin/config.js', (req, res) => {
 });
 
 app.get('/admin/*', (req, res) => {
-  res.sendFile(path.resolve(__dirname, '../admin/build/index.html'));
+  res.sendFile(path.resolve(__dirname, 'public/admin/index.html'));
 });
 
 // API Routes
@@ -54,10 +54,10 @@ app.get('/api/health', (req, res) => {
 
 // Serve static files from React admin panel (production)
 if (process.env.NODE_ENV === 'production') {
-  app.use('/admin', express.static(path.join(__dirname, '../admin/build')));
+  app.use('/admin', express.static(path.join(__dirname, 'public/admin')));
 
   app.get('/admin/*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../admin/build', 'index.html'));
+    res.sendFile(path.join(__dirname, 'public/admin', 'index.html'));
   });
 }
 

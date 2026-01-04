@@ -77,13 +77,17 @@ const Dashboard = () => {
       const response = await propertyAPI.delete(id);
       if (response.data.success) {
         alert('Property deleted successfully');
-        fetchProperties();
+        fetchData();
       }
     } catch (error) {
       alert('Failed to delete property');
       console.error(error);
     }
   };
+
+  const filteredProperties = activeCategory === 'all' 
+    ? properties 
+    : properties.filter(p => p.category === activeCategory);
 
   const handleToggleActive = async (id, currentValue) => {
     try {
@@ -93,7 +97,7 @@ const Dashboard = () => {
         !currentValue
       );
       if (response.data.success) {
-        fetchProperties();
+        fetchData();
       }
     } catch (error) {
       alert('Failed to update property status');
@@ -109,7 +113,7 @@ const Dashboard = () => {
         !currentValue
       );
       if (response.data.success) {
-        fetchProperties();
+        fetchData();
       }
     } catch (error) {
       alert('Failed to update property status');
@@ -125,7 +129,7 @@ const Dashboard = () => {
         !currentValue
       );
       if (response.data.success) {
-        fetchProperties();
+        fetchData();
       }
     } catch (error) {
       alert('Failed to update property availability');
