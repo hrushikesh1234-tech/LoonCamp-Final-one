@@ -157,11 +157,11 @@ const PropertyForm = () => {
       // Clean up arrays - remove empty strings
       const cleanedData = {
         ...formData,
-        amenities: formData.amenities.filter((item) => item.trim() !== ''),
-        activities: formData.activities.filter((item) => item.trim() !== ''),
-        highlights: formData.highlights.filter((item) => item.trim() !== ''),
-        policies: formData.policies.filter((item) => item.trim() !== ''),
-        images: formData.images.filter((item) => item.trim() !== ''),
+        amenities: formData.amenities.filter((item) => typeof item === 'string' && item.trim() !== ''),
+        activities: formData.activities.filter((item) => typeof item === 'string' && item.trim() !== ''),
+        highlights: formData.highlights.filter((item) => typeof item === 'string' && item.trim() !== ''),
+        policies: formData.policies.filter((item) => typeof item === 'string' && item.trim() !== ''),
+        images: formData.images.filter((item) => typeof item === 'string' && item.trim() !== ''),
         rating: parseFloat(formData.rating),
         capacity: parseInt(formData.capacity),
       };
