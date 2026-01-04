@@ -108,6 +108,45 @@ const PropertyForm = () => {
     });
   };
 
+  const [uploading, setUploading] = useState(false);
+
+  const handleFileUpload = async (e) => {
+    const files = Array.from(e.target.files);
+    if (files.length === 0) return;
+
+    setUploading(true);
+    try {
+      const uploadPromises = files.map(async (file) => {
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('upload_preset', process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET || 'looncamp_preset');
+        
+        const response = await fetch(
+          `https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME || 'dcw0z9qzm'}/image/upload`,
+          {
+            method: 'POST',
+            body: formData,
+          }
+        );
+        
+        if (!response.ok) throw new Error('Upload failed');
+        const data = await response.json();
+        return data.secure_url;
+      });
+
+      const uploadedUrls = await uploadPromises;
+      setFormData((prev) => ({
+        ...prev,
+        images: [...prev.images.filter(img => img.trim() !== ''), ...uploadedUrls],
+      }));
+    } catch (error) {
+      alert('Failed to upload images. Please check your Cloudinary configuration.');
+      console.error(error);
+    } finally {
+      setUploading(false);
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -474,34 +513,89 @@ const PropertyForm = () => {
           </div>
 
           <div className="array-input">
-            <h4>Image URLs</h4>
-            {formData.images.map((image, index) => (
-              <div key={index} className="array-item">
+            <h4>Images</h4>
+            <div className="upload-section" style={{ marginBottom: '20px' }}>
+              <label className="btn btn-secondary" style={{ cursor: 'pointer', display: 'inline-block' }}>
+                {uploading ? 'Uploading...' : '↑ Upload Images to Cloudinary'}
                 <input
-                  type="text"
-                  value={image}
-                  onChange={(e) =>
-                    handleArrayChange('images', index, e.target.value)
-                  }
-                  placeholder="Enter image URL (e.g., https://example.com/image.jpg)"
+                  type="file"
+                  multiple
+                  accept="image/*"
+                  onChange={handleFileUpload}
+                  disabled={uploading}
+                  style={{ display: 'none' }}
                 />
-                {formData.images.length > 1 && (
+              </label>
+              <p className="text-muted" style={{ fontSize: '0.8rem', marginTop: '5px' }}>
+                Upload multiple images directly. They will be automatically optimized.
+              </p>
+            </div>
+
+            <div className="image-previews" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))', gap: '15px', marginBottom: '20px' }}>
+              {formData.images.filter(url => url.trim() !== '').map((image, index) => (
+                <div key={index} className="image-preview-item" style={{ position: 'relative', borderRadius: '8px', overflow: 'hidden', border: '1px solid #ddd' }}>
+                  <img 
+                    src={image.replace('/upload/', '/upload/w_300,f_auto,q_auto/')} 
+                    alt={`Property ${index + 1}`} 
+                    style={{ width: '100%', height: '120px', objectCover: 'cover' }}
+                  />
                   <button
                     type="button"
                     onClick={() => removeArrayItem('images', index)}
+                    style={{
+                      position: 'absolute',
+                      top: '5px',
+                      right: '5px',
+                      background: 'rgba(255,0,0,0.7)',
+                      color: 'white',
+                      border: 'none',
+                      borderRadius: '50%',
+                      width: '24px',
+                      height: '24px',
+                      cursor: 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      fontSize: '12px'
+                    }}
                   >
-                    Remove
+                    ✕
                   </button>
-                )}
-              </div>
-            ))}
-            <button
-              type="button"
-              className="add-item-btn"
-              onClick={() => addArrayItem('images')}
-            >
-              + Add Image URL
-            </button>
+                </div>
+              ))}
+            </div>
+
+            <div className="manual-urls">
+              <details>
+                <summary style={{ cursor: 'pointer', color: '#666', fontSize: '0.9rem' }}>Manual Image URLs (Advanced)</summary>
+                {formData.images.map((image, index) => (
+                  <div key={index} className="array-item" style={{ marginTop: '10px' }}>
+                    <input
+                      type="text"
+                      value={image}
+                      onChange={(e) =>
+                        handleArrayChange('images', index, e.target.value)
+                      }
+                      placeholder="Enter image URL manually"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => removeArrayItem('images', index)}
+                    >
+                      Remove
+                    </button>
+                  </div>
+                ))}
+                <button
+                  type="button"
+                  className="add-item-btn"
+                  onClick={() => addArrayItem('images')}
+                  style={{ marginTop: '10px' }}
+                >
+                  + Add Manual URL
+                </button>
+              </details>
+            </div>
           </div>
 
           <div className="form-actions">
