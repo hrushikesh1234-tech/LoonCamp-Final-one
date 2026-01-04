@@ -52,8 +52,8 @@ CREATE TABLE IF NOT EXISTS category_settings (
   is_active BOOLEAN DEFAULT true,
   is_closed BOOLEAN DEFAULT false,
   closed_reason TEXT,
-  closed_from DATE,
-  closed_to DATE,
+  closed_from TEXT,
+  closed_to TEXT,
   base_price VARCHAR(50),
   description TEXT,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
