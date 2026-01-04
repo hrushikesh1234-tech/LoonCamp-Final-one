@@ -1,3 +1,4 @@
+import { getOptimizedImageUrl } from "@/lib/cloudinary";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Share2, Star, MapPin, MessageCircle, ChevronLeft, ChevronRight } from "lucide-react";
@@ -105,9 +106,10 @@ const PropertyCard = ({
             onTouchEnd={handleTouchEnd}
           >
             <img
-              src={propertyImages[currentImageIndex]}
+              src={getOptimizedImageUrl(propertyImages[currentImageIndex], 600)}
               alt={title}
               className="w-full h-full object-cover transition-all duration-1000 group-hover:scale-110"
+              loading="lazy"
             />
 
             {/* Navigation Arrows (Visible on hover) */}

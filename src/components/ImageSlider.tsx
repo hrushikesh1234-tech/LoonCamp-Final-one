@@ -1,3 +1,4 @@
+import { getOptimizedImageUrl } from "@/lib/cloudinary";
 import { useState, useRef, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -57,10 +58,11 @@ const ImageSlider = ({ images, title }: ImageSliderProps) => {
       {/* Main Image */}
       <div className="relative w-full h-full">
         <img
-          src={images[currentIndex]}
+          src={getOptimizedImageUrl(images[currentIndex], 1200)}
           alt={`${title} - Image ${currentIndex + 1}`}
           className="w-full h-full object-cover transition-opacity duration-500"
           data-testid={`img-slider-${currentIndex}`}
+          loading="lazy"
         />
 
         {/* Dark overlay gradient */}
