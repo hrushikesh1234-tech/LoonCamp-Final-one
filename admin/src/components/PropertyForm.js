@@ -121,7 +121,7 @@ const PropertyForm = () => {
       const uploadPromises = files.map(async (file) => {
         const formData = new FormData();
         formData.append('file', file);
-        formData.append('upload_preset', 'looncamp_preset');
+        formData.append('upload_preset', 'looncamp_images');
         
         const response = await fetch(
           `https://api.cloudinary.com/v1_1/dcw0z9qzm/image/upload`,
