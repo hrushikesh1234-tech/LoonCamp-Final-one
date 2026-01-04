@@ -239,11 +239,11 @@ const Properties = () => {
                         <p className="text-destructive font-bold text-xs md:text-sm uppercase tracking-[0.2em]">Temporarily Closed</p>
                       </div>
                       <p className="text-foreground font-semibold text-lg mb-2 leading-tight">{setting.reason}</p>
-                      {setting.from && setting.to && (
+                      {setting.from && (
                         <div className="flex flex-col gap-1 mt-3">
-                          <p className="text-muted-foreground text-xs font-medium">Expected Closure Period</p>
+                          <p className="text-muted-foreground text-xs font-medium">Closure Date</p>
                           <p className="text-foreground/80 text-sm font-medium">
-                            {setting.from.includes('-') ? setting.from : new Date(setting.from).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' }) + ' - ' + new Date(setting.to).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
+                            {setting.from}
                           </p>
                         </div>
                       )}

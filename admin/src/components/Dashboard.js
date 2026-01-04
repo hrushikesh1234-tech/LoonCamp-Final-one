@@ -43,17 +43,14 @@ const Dashboard = () => {
     let closedTo = null;
 
     if (!currentStatus) {
-      reason = window.prompt('Enter closure reason (Description):', 'Maintenance');
+      reason = window.prompt('Enter Closure Reason:', 'Maintenance');
       if (reason === null) return;
       
-      const period = window.prompt('Enter Expected Closure Period (e.g., 5th Jan - 10th Jan):', '');
-      if (period === null) return;
+      const closureDate = window.prompt('Enter Closure Date/Period (e.g., 10th Jan):', '');
+      if (closureDate === null) return;
       
-      // Store the custom period string in the closed_from field
-      closedFrom = period;
-      // Use a dummy date for closed_to to satisfy any potential date type constraints in DB 
-      // or just leave it if the column allows text.
-      closedTo = new Date().toISOString().split('T')[0];
+      closedFrom = closureDate;
+      closedTo = closureDate; // Use same value for simplicity if needed by DB, but we'll focus on 'from'
     }
     
     try {
