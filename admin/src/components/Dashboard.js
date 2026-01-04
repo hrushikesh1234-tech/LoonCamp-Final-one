@@ -90,6 +90,22 @@ const Dashboard = () => {
     }
   };
 
+  const handleToggleAvailability = async (id, currentValue) => {
+    try {
+      const response = await propertyAPI.toggleStatus(
+        id,
+        'is_available',
+        !currentValue
+      );
+      if (response.data.success) {
+        fetchProperties();
+      }
+    } catch (error) {
+      alert('Failed to update property availability');
+      console.error(error);
+    }
+  };
+
   const activeProperties = properties.filter((p) => p.is_active).length;
   const topSellingProperties = properties.filter((p) => p.is_top_selling).length;
 
@@ -187,6 +203,17 @@ const Dashboard = () => {
                           >
                             {property.is_active ? 'Active' : 'Inactive'}
                           </span>
+                          <span
+                            className={`status-badge ${
+                              property.is_available ? 'status-active' : 'status-inactive'
+                            }`}
+                            style={{ 
+                              background: property.is_available ? 'rgba(0, 255, 65, 0.2)' : 'rgba(255, 69, 0, 0.2)',
+                              color: property.is_available ? '#00FF41' : '#FF4500'
+                            }}
+                          >
+                            {property.is_available ? 'Available' : 'Booked'}
+                          </span>
                           {property.is_top_selling && (
                             <span className="status-badge status-top-selling">
                               Top Selling
@@ -213,6 +240,18 @@ const Dashboard = () => {
                             }
                           >
                             {property.is_active ? 'Deactivate' : 'Activate'}
+                          </button>
+                          <button
+                            className="action-btn"
+                            style={{
+                              background: property.is_available ? '#ed8936' : '#48bb78',
+                              color: 'white',
+                            }}
+                            onClick={() =>
+                              handleToggleAvailability(property.id, property.is_available)
+                            }
+                          >
+                            {property.is_available ? 'Mark Booked' : 'Mark Available'}
                           </button>
                           <button
                             className="action-btn"
