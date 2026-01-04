@@ -50,6 +50,10 @@ CREATE TABLE IF NOT EXISTS category_settings (
   id SERIAL PRIMARY KEY,
   category VARCHAR(50) UNIQUE NOT NULL,
   is_active BOOLEAN DEFAULT true,
+  is_closed BOOLEAN DEFAULT false,
+  closed_reason TEXT,
+  closed_from DATE,
+  closed_to DATE,
   base_price VARCHAR(50),
   description TEXT,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
