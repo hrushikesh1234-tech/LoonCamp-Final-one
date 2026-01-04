@@ -1,0 +1,62 @@
+Uploading file: dome-resort.jpg
+PropertyForm.js:127 Uploading file: riverside-glamping.jpg
+api.js:55  POST https://d0b55dd5-56dd-4890-93a2-4323ac693e56-00-7bewnu4bg0jq.picard.replit.dev/api/properties/upload-image 500 (Internal Server Error)
+(anonymous) @ xhr.js:198
+xhr @ xhr.js:15
+Hn @ dispatchRequest.js:51
+Promise.then
+_request @ Axios.js:163
+request @ Axios.js:40
+(anonymous) @ Axios.js:224
+toString @ bind.js:12
+pr @ api.js:55
+(anonymous) @ PropertyForm.js:128
+onChange @ PropertyForm.js:123
+ze @ react-dom.production.min.js:54
+Be @ react-dom.production.min.js:54
+(anonymous) @ react-dom.production.min.js:55
+Ur @ react-dom.production.min.js:105
+Dr @ react-dom.production.min.js:106
+(anonymous) @ react-dom.production.min.js:117
+su @ react-dom.production.min.js:273
+Oe @ react-dom.production.min.js:52
+Hr @ react-dom.production.min.js:109
+Qt @ react-dom.production.min.js:74
+$t @ react-dom.production.min.js:73Understand this error
+PropertyForm.js:151 Upload error details: gt {message: 'Request failed with status code 500', name: 'AxiosError', code: 'ERR_BAD_RESPONSE', config: {…}, request: XMLHttpRequest, …}
+onChange @ PropertyForm.js:151
+await in onChange
+ze @ react-dom.production.min.js:54
+Be @ react-dom.production.min.js:54
+(anonymous) @ react-dom.production.min.js:55
+Ur @ react-dom.production.min.js:105
+Dr @ react-dom.production.min.js:106
+(anonymous) @ react-dom.production.min.js:117
+su @ react-dom.production.min.js:273
+Oe @ react-dom.production.min.js:52
+Hr @ react-dom.production.min.js:109
+Qt @ react-dom.production.min.js:74
+$t @ react-dom.production.min.js:73Understand this error
+api.js:55  POST https://d0b55dd5-56dd-4890-93a2-4323ac693e56-00-7bewnu4bg0jq.picard.replit.dev/api/properties/upload-image 500 (Internal Server Error)
+(anonymous) @ xhr.js:198
+xhr @ xhr.js:15
+Hn @ dispatchRequest.js:51
+Promise.then
+_request @ Axios.js:163
+request @ Axios.js:40
+(anonymous) @ Axios.js:224
+toString @ bind.js:12
+pr @ api.js:55
+(anonymous) @ PropertyForm.js:128
+onChange @ PropertyForm.js:123
+ze @ react-dom.production.min.js:54
+Be @ react-dom.production.min.js:54
+(anonymous) @ react-dom.production.min.js:55
+Ur @ react-dom.production.min.js:105
+Dr @ react-dom.production.min.js:106
+(anonymous) @ react-dom.production.min.js:117
+su @ react-dom.production.min.js:273
+Oe @ react-dom.production.min.js:52
+Hr @ react-dom.production.min.js:109
+Qt @ react-dom.production.min.js:74
+$t @ react-dom.production.min.js:73Understand this error
