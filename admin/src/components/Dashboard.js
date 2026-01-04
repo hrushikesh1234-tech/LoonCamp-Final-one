@@ -188,7 +188,15 @@ const Dashboard = () => {
                   {setting.is_closed ? 'Open' : 'Close'}
                 </button>
               </div>
-              <p>{setting.is_closed ? 'Closed: ' + setting.closed_reason : 'Operational'}</p>
+              <div style={{ marginTop: '10px' }}>
+                <p style={{ margin: '5px 0', fontSize: '14px' }}><strong>Status:</strong> {setting.is_closed ? 'Closed' : 'Operational'}</p>
+                {setting.is_closed && (
+                  <>
+                    <p style={{ margin: '5px 0', fontSize: '14px' }}><strong>Reason:</strong> {setting.closed_reason}</p>
+                    <p style={{ margin: '5px 0', fontSize: '14px' }}><strong>Date:</strong> {setting.closed_from}</p>
+                  </>
+                )}
+              </div>
             </div>
           ))}
         </div>
