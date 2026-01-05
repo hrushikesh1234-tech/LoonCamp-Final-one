@@ -1,0 +1,37 @@
+}root@srv1247309:/var/www/looncamp/backend# cp /etc/nginx/sites-available/looncamp /etc/nginx/sites-available/looncamp.bak
+root@srv1247309:/var/www/looncamp/backend# nano /etc/nginx/sites-available/looncamp
+root@srv1247309:/var/www/looncamp/backend# root@srv1247309:/var/www/looncamp/backend# nano /var/www/looncamp/backend/.env
+root@srv1247309:/var/www/looncamp/backend# nginx -t
+nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
+nginx: configuration file /etc/nginx/nginx.conf test is successful
+root@srv1247309:/var/www/looncamp/backend# systemctl reload nginx
+root@srv1247309:/var/www/looncamp/backend# pm2 status
+┌────┬─────────────────┬─────────────┬─────────┬─────────┬──────────┬────────┬──────┬───────────┬──────────┬──────────┬──────────┬──────────┐
+│ id │ name            │ namespace   │ version │ mode    │ pid      │ uptime │ ↺    │ status    │ cpu      │ mem      │ user     │ watching │
+├────┼─────────────────┼─────────────┼─────────┼─────────┼──────────┼────────┼──────┼───────────┼──────────┼──────────┼──────────┼──────────┤
+│ 0  │ looncamp-api    │ default     │ 1.0.0   │ fork    │ 22845    │ 25m    │ 30   │ online    │ 0%       │ 68.6mb   │ root     │ disabled │
+└────┴─────────────────┴─────────────┴─────────┴─────────┴──────────┴────────┴──────┴───────────┴──────────┴──────────┴──────────┴──────────┘
+root@srv1247309:/var/www/looncamp/backend# curl -I https://looncamp.shop
+HTTP/1.1 404 Not Found
+Server: nginx/1.24.0 (Ubuntu)
+Date: Mon, 05 Jan 2026 08:42:56 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 140
+Connection: keep-alive
+X-Powered-By: Express
+Access-Control-Allow-Origin: *
+Content-Security-Policy: default-src 'none'
+X-Content-Type-Options: nosniff
+
+root@srv1247309:/var/www/looncamp/backend# curl -I https://looncamp.shop/api/some-endpoint
+HTTP/1.1 404 Not Found
+Server: nginx/1.24.0 (Ubuntu)
+Date: Mon, 05 Jan 2026 08:43:11 GMT
+Content-Type: application/json; charset=utf-8
+Content-Length: 52
+Connection: keep-alive
+X-Powered-By: Express
+Access-Control-Allow-Origin: *
+ETag: W/"34-aNoZFV9ebFogB3Vw0LLqqtyv/fg"
+
+root@srv1247309:/var/www/looncamp/backend#
