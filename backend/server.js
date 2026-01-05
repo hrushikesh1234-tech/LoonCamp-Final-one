@@ -23,12 +23,11 @@ app.use((req, res, next) => {
 
 // Serve static files from React admin panel
 const adminPath = path.join(__dirname, 'public/admin');
+const frontendPath = path.join(__dirname, '../dist');
 
 // Middleware to handle /admin trailing slash
 app.use((req, res, next) => {
-  console.log(`Incoming request: ${req.method} ${req.path}`);
   if (req.path === '/admin') {
-    console.log('Redirecting /admin to /admin/');
     return res.redirect(301, '/admin/');
   }
   next();
@@ -48,14 +47,12 @@ app.get('/admin/config.js', (req, res) => {
 // Serve static files for admin
 app.use('/admin', express.static(adminPath));
 
+// Serve static files for main frontend
+app.use(express.static(frontendPath));
+
 // API Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/properties', propertyRoutes);
-
-// Root route - redirect to admin or show welcome message
-app.get('/', (req, res) => {
-  res.redirect('/admin/');
-});
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {
@@ -66,10 +63,19 @@ app.get('/api/health', (req, res) => {
   });
 });
 
-// Admin SPA routing - specifically for React Router inside /admin
-// This catches any URL that starts with /admin and isn't a file or API
+// Admin SPA routing
 app.get(/^\/admin.*/, (req, res) => {
   res.sendFile(path.join(adminPath, 'index.html'));
+});
+
+// Frontend SPA routing - MUST BE LAST
+app.get(/^(?!\/api|\/admin).*/, (req, res) => {
+  // Return index.html for all other routes to support client-side routing
+  res.sendFile(path.join(frontendPath, 'index.html'), (err) => {
+    if (err) {
+      res.status(404).send('Frontend build not found. Please run npm run build.');
+    }
+  });
 });
 
 // 404 handler for API routes
