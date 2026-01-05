@@ -242,6 +242,8 @@ const createProperty = async (req, res) => {
       images,
     } = req.body;
 
+    console.log('Creating property with data:', { title, category, imageCount: images?.length });
+
     // Validate required fields
     if (!title || !description || !category || !location || !price || !price_note || !capacity) {
       return res.status(400).json({
@@ -281,10 +283,10 @@ const createProperty = async (req, res) => {
         is_active !== undefined ? is_active : true,
         is_available !== undefined ? is_available : true,
         contact || '+91 8669505727',
-        JSON.stringify(amenities || []),
-        JSON.stringify(activities || []),
-        JSON.stringify(highlights || []),
-        JSON.stringify(policies || []),
+        typeof amenities === 'string' ? amenities : JSON.stringify(amenities || []),
+        typeof activities === 'string' ? activities : JSON.stringify(activities || []),
+        typeof highlights === 'string' ? highlights : JSON.stringify(highlights || []),
+        typeof policies === 'string' ? policies : JSON.stringify(policies || []),
       ]
     );
 
@@ -312,8 +314,8 @@ const createProperty = async (req, res) => {
       },
     });
   } catch (error) {
-    await client.query('ROLLBACK');
-    console.error('Create property error:', error);
+    if (client) await client.query('ROLLBACK');
+    console.error('Detailed Create property error:', error);
 
     if (error.code === '23505') {
       return res.status(400).json({
@@ -325,9 +327,10 @@ const createProperty = async (req, res) => {
     return res.status(500).json({
       success: false,
       message: 'Failed to create property.',
+      error: error.message
     });
   } finally {
-    client.release();
+    if (client) client.release();
   }
 };
 
@@ -359,6 +362,8 @@ const updateProperty = async (req, res) => {
       policies,
       images,
     } = req.body;
+
+    console.log('Updating property with data:', { id, title, category, imageCount: images?.length });
 
     // Check if property exists
     const checkResult = await query('SELECT id FROM properties WHERE id = $1', [id]);
@@ -461,22 +466,22 @@ const updateProperty = async (req, res) => {
     }
     if (amenities !== undefined) {
       updates.push(`amenities = $${paramCount}`);
-      values.push(JSON.stringify(amenities));
+      values.push(typeof amenities === 'string' ? amenities : JSON.stringify(amenities));
       paramCount++;
     }
     if (activities !== undefined) {
       updates.push(`activities = $${paramCount}`);
-      values.push(JSON.stringify(activities));
+      values.push(typeof activities === 'string' ? activities : JSON.stringify(activities));
       paramCount++;
     }
     if (highlights !== undefined) {
       updates.push(`highlights = $${paramCount}`);
-      values.push(JSON.stringify(highlights));
+      values.push(typeof highlights === 'string' ? highlights : JSON.stringify(highlights));
       paramCount++;
     }
     if (policies !== undefined) {
       updates.push(`policies = $${paramCount}`);
-      values.push(JSON.stringify(policies));
+      values.push(typeof policies === 'string' ? policies : JSON.stringify(policies));
       paramCount++;
     }
 
@@ -512,8 +517,8 @@ const updateProperty = async (req, res) => {
       message: 'Property updated successfully.',
     });
   } catch (error) {
-    await client.query('ROLLBACK');
-    console.error('Update property error:', error);
+    if (client) await client.query('ROLLBACK');
+    console.error('Detailed Update property error:', error);
 
     if (error.code === '23505') {
       return res.status(400).json({
@@ -525,9 +530,10 @@ const updateProperty = async (req, res) => {
     return res.status(500).json({
       success: false,
       message: 'Failed to update property.',
+      error: error.message
     });
   } finally {
-    client.release();
+    if (client) client.release();
   }
 };
 

@@ -8,17 +8,20 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-console.log('Cloudinary Config:', {
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME ? 'Present' : 'Missing',
+console.log('Cloudinary Config Check:', {
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME || process.env.REACT_APP_CLOUDINARY_CLOUD_NAME ? 'Present' : 'Missing',
   api_key: process.env.CLOUDINARY_API_KEY ? 'Present' : 'Missing',
   api_secret: process.env.CLOUDINARY_API_SECRET ? 'Present' : 'Missing'
 });
 
 const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
-  params: {
-    folder: 'looncamp',
-    allowed_formats: ['jpg', 'png', 'jpeg', 'webp'],
+  params: async (req, file) => {
+    return {
+      folder: 'looncamp',
+      format: 'jpg', // Force format for debugging
+      public_id: file.originalname.split('.')[0] + '-' + Date.now(),
+    };
   },
 });
 

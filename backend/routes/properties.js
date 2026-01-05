@@ -18,11 +18,22 @@ router.patch('/toggle-status/:id', authMiddleware, propertyController.toggleProp
 const { upload } = require('../utils/cloudinary');
 router.post('/upload-image', authMiddleware, upload.single('image'), (req, res) => {
   try {
+    console.log('Upload request received:', {
+      file: req.file ? {
+        originalname: req.file.originalname,
+        mimetype: req.file.mimetype,
+        size: req.file.size,
+        path: req.file.path
+      } : 'No file',
+      body: req.body
+    });
+
     if (!req.file) {
       return res.status(400).json({ success: false, message: 'No file uploaded' });
     }
     res.json({ success: true, url: req.file.path });
   } catch (error) {
+    console.error('Detailed upload error:', error);
     res.status(500).json({ success: false, message: 'Upload failed', error: error.message });
   }
 });
