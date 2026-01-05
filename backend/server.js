@@ -35,10 +35,15 @@ app.get('/admin/config.js', (req, res) => {
   res.send(`window._env_ = ${JSON.stringify(config)};`);
 });
 
+// Explicitly handle the /admin route with and without trailing slash
+app.get('/admin', (req, res) => {
+  res.sendFile(path.join(adminPath, 'index.html'));
+});
+
 app.use('/admin', express.static(adminPath));
 
-// Handle both /admin and /admin/* for SPA routing
-app.get(['/admin', '/admin/*'], (req, res) => {
+// Handle all other /admin/* sub-routes for SPA routing
+app.get('/admin/*', (req, res) => {
   res.sendFile(path.join(adminPath, 'index.html'));
 });
 
