@@ -1,0 +1,61 @@
+root@srv1247309:~# cd /var/www/looncamp
+root@srv1247309:/var/www/looncamp# git pull origin main
+remote: Enumerating objects: 13, done.
+remote: Counting objects: 100% (13/13), done.
+remote: Compressing objects: 100% (3/3), done.
+remote: Total 9 (delta 6), reused 9 (delta 6), pack-reused 0 (from 0)
+Unpacking objects: 100% (9/9), 3.14 KiB | 642.00 KiB/s, done.
+From https://github.com/hrushikesh1234-tech/LoonCamp-Final-one
+ * branch            main       -> FETCH_HEAD
+   480d22f..4ef8195  main       -> origin/main
+Updating 480d22f..4ef8195
+Fast-forward
+ attached_assets/Pasted--root-srv1247309-var-www-looncamp-backend-cp-etc-nginx-_1767603249326.txt | 37 +++++++++++++++++++++++++++++++++++++
+ attached_assets/Pasted-root-srv1247309-var-www-looncamp-backend-cd-looncamp-ba_1767603491365.txt | 31 +++++++++++++++++++++++++++++++
+ backend/server.js                                                                                | 24 +++++++++++++++---------
+ 3 files changed, 83 insertions(+), 9 deletions(-)
+ create mode 100644 attached_assets/Pasted--root-srv1247309-var-www-looncamp-backend-cp-etc-nginx-_1767603249326.txt
+ create mode 100644 attached_assets/Pasted-root-srv1247309-var-www-looncamp-backend-cd-looncamp-ba_1767603491365.txt
+
+up to date, audited 507 packages in 2s
+
+105 packages are looking for funding
+  run `npm fund` for details
+
+6 vulnerabilities (3 moderate, 3 high)
+
+To address issues that do not require attention, run:
+  npm audit fix
+
+To address all issues (including breaking changes), run:
+  npm audit fix --force
+
+Run `npm audit` for details.
+NODE_ENV=production is not supported in the .env file. Only NODE_ENV=development is supported to create a development build of your project. If you need to set process.env.NODE_ENV, you can set it in the Vite config instead.
+vite v5.4.19 building for production...
+Browserslist: browsers data (caniuse-lite) is 7 months old. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+✓ 2615 modules transformed.
+dist/index.html                         1.23 kB │ gzip:   0.52 kB
+dist/assets/pawna-lake-Cvgl-HoD.jpg    80.07 kB
+dist/assets/lonavala-XOm2Fn5C.jpg     118.13 kB
+dist/assets/hero-resort-CLlsMcmJ.jpg  293.47 kB
+dist/assets/index-BAoU2WLa.css         83.41 kB │ gzip:  14.08 kB
+dist/assets/index-CwIJYTdV.js         519.91 kB │ gzip: 164.28 kB
+
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 6.80s
+root@srv1247309:/var/www/looncamp# pm2 restart looncamp-api
+Use --update-env to update environment variables
+[PM2] Applying action restartProcessId on app [looncamp-api](ids: [ 0 ])
+[PM2] [looncamp-api](0) ✓
+┌────┬─────────────────┬─────────────┬─────────┬─────────┬──────────┬────────┬──────┬───────────┬──────────┬──────────┬──────────┬──────────┐
+│ id │ name            │ namespace   │ version │ mode    │ pid      │ uptime │ ↺    │ status    │ cpu      │ mem      │ user     │ watching │
+├────┼─────────────────┼─────────────┼─────────┼─────────┼──────────┼────────┼──────┼───────────┼──────────┼──────────┼──────────┼──────────┤
+│ 0  │ looncamp-api    │ default     │ 1.0.0   │ fork    │ 23414    │ 0s     │ 32   │ online    │ 0%       │ 22.4mb   │ root     │ disabled │
+└────┴─────────────────┴─────────────┴─────────┴─────────┴──────────┴────────┴──────┴───────────┴──────────┴──────────┴──────────┴──────────┘
+root@srv1247309:/var/www/looncamp#
