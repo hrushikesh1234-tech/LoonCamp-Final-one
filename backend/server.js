@@ -42,8 +42,8 @@ app.get('/admin', (req, res) => {
 
 app.use('/admin', express.static(adminPath));
 
-// Handle all other /admin/* sub-routes for SPA routing
-app.get('/admin/*', (req, res) => {
+// Handle all other /admin sub-routes for SPA routing
+app.get(/^\/admin\/.*$/, (req, res) => {
   res.sendFile(path.join(adminPath, 'index.html'));
 });
 
@@ -61,7 +61,7 @@ app.get('/api/health', (req, res) => {
 });
 
 // 404 handler for API routes
-app.use('/api/*', (req, res) => {
+app.use(/^\/api\/.*$/, (req, res) => {
   res.status(404).json({
     success: false,
     message: 'API endpoint not found',
