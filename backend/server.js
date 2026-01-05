@@ -93,7 +93,7 @@ app.use((err, req, res, next) => {
   if (err.message && err.message.includes('File size too large')) {
     return res.status(400).json({
       success: false,
-      message: 'Image file size is too large (max 10MB). Please compress the image or use a smaller file.',
+      message: 'Image file size is too large (max 50MB). Please compress the image or use a smaller file.',
     });
   }
 
