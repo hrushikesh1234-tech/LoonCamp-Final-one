@@ -22,7 +22,7 @@ app.use((req, res, next) => {
 });
 
 // Serve static files from React admin panel
-app.use('/admin', express.static(path.join(__dirname, 'public/admin')));
+const adminPath = path.join(__dirname, 'public/admin');
 
 // Inject environment variables into the admin panel
 app.get('/admin/config.js', (req, res) => {
@@ -35,8 +35,11 @@ app.get('/admin/config.js', (req, res) => {
   res.send(`window._env_ = ${JSON.stringify(config)};`);
 });
 
-app.get('/admin/*', (req, res) => {
-  res.sendFile(path.resolve(__dirname, 'public/admin/index.html'));
+app.use('/admin', express.static(adminPath));
+
+// Handle both /admin and /admin/* for SPA routing
+app.get(['/admin', '/admin/*'], (req, res) => {
+  res.sendFile(path.join(adminPath, 'index.html'));
 });
 
 // API Routes
@@ -51,15 +54,6 @@ app.get('/api/health', (req, res) => {
     timestamp: new Date().toISOString(),
   });
 });
-
-// Serve static files from React admin panel (production)
-if (process.env.NODE_ENV === 'production') {
-  app.use('/admin', express.static(path.join(__dirname, 'public/admin')));
-
-  app.get('/admin/*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public/admin', 'index.html'));
-  });
-}
 
 // 404 handler for API routes
 app.use('/api/*', (req, res) => {
