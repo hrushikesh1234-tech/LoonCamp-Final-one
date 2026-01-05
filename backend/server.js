@@ -24,6 +24,14 @@ app.use((req, res, next) => {
 // Serve static files from React admin panel
 const adminPath = path.join(__dirname, 'public/admin');
 
+// Middleware to handle /admin trailing slash
+app.use((req, res, next) => {
+  if (req.path === '/admin') {
+    return res.redirect(301, '/admin/');
+  }
+  next();
+});
+
 // Inject environment variables into the admin panel
 app.get('/admin/config.js', (req, res) => {
   const config = {
@@ -35,15 +43,11 @@ app.get('/admin/config.js', (req, res) => {
   res.send(`window._env_ = ${JSON.stringify(config)};`);
 });
 
-// Explicitly handle the /admin route with and without trailing slash
-app.get('/admin', (req, res) => {
-  res.sendFile(path.join(adminPath, 'index.html'));
-});
-
+// Serve static files for admin
 app.use('/admin', express.static(adminPath));
 
 // Handle all other /admin sub-routes for SPA routing
-app.get(/^\/admin\/.*$/, (req, res) => {
+app.get(/^\/admin(\/.*)?$/, (req, res) => {
   res.sendFile(path.join(adminPath, 'index.html'));
 });
 
