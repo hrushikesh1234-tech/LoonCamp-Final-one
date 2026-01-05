@@ -53,7 +53,7 @@ const Login = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              placeholder="info@looncamp.com"
+              placeholder="Enter your email"
               autoComplete="email"
             />
           </div>
@@ -78,11 +78,6 @@ const Login = () => {
             {loading ? 'Logging in...' : 'Login'}
           </button>
         </form>
-        <div style={{ marginTop: '20px', textAlign: 'center', fontSize: '12px', color: '#999' }}>
-          <p>Default credentials:</p>
-          <p>Email: info@looncamp.com</p>
-          <p>Password: LoonCamp@2026</p>
-        </div>
       </div>
     </div>
   );
