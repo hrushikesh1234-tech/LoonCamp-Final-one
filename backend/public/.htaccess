@@ -9,7 +9,6 @@ RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^admin/(.*)$ admin/index.html [L]
 
-# API Proxy (If your Node.js app runs on a specific port, Hostinger usually handles this, 
-# but we ensure requests starting with /api go to the backend)
-# Hostinger Node.js integration usually maps the domain to the app, 
-# but these rules help with routing within the app structure.
+# For Shared Hosting where the Node.js app is the main handler
+# This ensures that even without a VPS, sub-paths are passed correctly
+# and handled by the index.html for SPA routing.
