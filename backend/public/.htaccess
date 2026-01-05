@@ -1,0 +1,15 @@
+RewriteEngine On
+
+# Redirect /admin to /admin/
+RewriteRule ^admin$ admin/ [L,R=301]
+
+# Handle /admin sub-routes
+RewriteCond %{REQUEST_URI} ^/admin/
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^admin/(.*)$ admin/index.html [L]
+
+# API Proxy (If your Node.js app runs on a specific port, Hostinger usually handles this, 
+# but we ensure requests starting with /api go to the backend)
+# Hostinger Node.js integration usually maps the domain to the app, 
+# but these rules help with routing within the app structure.

@@ -61,14 +61,14 @@ app.get('/api/health', (req, res) => {
   });
 });
 
-// Handle all other routes for SPA routing - Serve React frontend
-// If it's an admin route, serve admin/index.html
-app.get(/^\/admin(\/.*)?$/, (req, res) => {
+// Admin SPA routing - specifically for React Router inside /admin
+// This catches any URL that starts with /admin and isn't a file or API
+app.get('/admin/*', (req, res) => {
   res.sendFile(path.join(adminPath, 'index.html'));
 });
 
 // 404 handler for API routes
-app.use(/^\/api\/.*$/, (req, res) => {
+app.use('/api/*', (req, res) => {
   res.status(404).json({
     success: false,
     message: 'API endpoint not found',
