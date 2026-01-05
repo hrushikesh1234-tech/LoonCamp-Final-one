@@ -73,10 +73,9 @@ CREATE INDEX IF NOT EXISTS idx_properties_category ON properties(category);
 CREATE INDEX IF NOT EXISTS idx_properties_is_active ON properties(is_active);
 CREATE INDEX IF NOT EXISTS idx_property_images_property_id ON property_images(property_id);
 
--- Insert default admin user (password: LoonCamp@2026)
--- Password hash generated using bcrypt with 10 rounds
+-- Insert initial admin user
 INSERT INTO admins (email, password_hash)
-VALUES ('info@looncamp.com', '$2b$10$InC9HGOdQsVY/JY.8Vwz7OmLCjYYdOg6zkG21.J2f3uDh7qVOe8rC')
+VALUES ('admin@looncamp.shop', '$2b$10$InC9HGOdQsVY/JY.8Vwz7OmLCjYYdOg6zkG21.J2f3uDh7qVOe8rC')
 ON CONFLICT (email) DO NOTHING;
 
 -- Sample property data (optional - for testing)

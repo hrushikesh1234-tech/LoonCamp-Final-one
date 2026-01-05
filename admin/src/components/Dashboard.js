@@ -162,7 +162,6 @@ const Dashboard = () => {
         <div className="container">
           <h1>LoonCamp Admin Panel</h1>
           <div className="user-info">
-            <span className="user-email">{admin?.email}</span>
             <button className="btn btn-secondary" onClick={handleLogout}>
               Logout
             </button>
