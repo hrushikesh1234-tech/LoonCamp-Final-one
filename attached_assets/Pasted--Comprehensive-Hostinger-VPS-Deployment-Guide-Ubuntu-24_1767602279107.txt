@@ -1,0 +1,215 @@
+# 🚀 Comprehensive Hostinger VPS Deployment Guide (Ubuntu 24.04 LTS + Node.js)
+
+This guide provides every single command and step needed to deploy **LoonCamp** to your Hostinger KVM 2 VPS running Ubuntu 24.04 LTS.
+
+---
+
+## 📋 Table of Contents
+1. [Prerequisites](#1-prerequisites)
+2. [DNS Setup (Pointing Domain to VPS)](#2-dns-setup)
+3. [Initial Server Setup](#3-initial-server-setup)
+4. [Environment Preparation](#4-environment-preparation)
+5. [Database Setup (PostgreSQL)](#5-database-setup)
+6. [Application Deployment](#6-application-deployment)
+7. [Process Management (PM2)](#7-process-management)
+8. [Web Server & SSL (Nginx)](#8-web-server-ssl)
+
+---
+
+## 1. Prerequisites
+- **VPS Plan**: KVM 2 (Recommended)
+- **OS**: Ubuntu 24.04 LTS (Plain OS)
+- **Domain**: `looncamp.shop`
+
+---
+
+## 2. DNS Setup (Pointing Domain to VPS)
+
+To connect your domain `looncamp.shop` to your VPS, follow these steps in your Hostinger DNS management panel (as seen in your screenshot):
+
+1. **Find your VPS IP Address**: Go to your Hostinger VPS Dashboard and copy the **IP Address** (e.g., `123.45.67.89`).
+2. **Add/Update the A Record**:
+   - **Type**: `A`
+   - **Name**: `@` (This represents your root domain `looncamp.shop`)
+   - **Points to**: Paste your **VPS IP Address** here.
+   - **TTL**: `14400` (Default is fine).
+   - Click **Add Record** (or **Edit** if one already exists).
+3. **Add/Update the CNAME for WWW**:
+   - **Type**: `CNAME`
+   - **Name**: `www`
+   - **Points to**: `looncamp.shop`
+   - Click **Add Record**.
+
+*Note: DNS changes can take a few minutes to a few hours to propagate globally.*
+
+---
+
+## 3. Initial Server Setup
+
+### Step 3.1: Login to your VPS
+Open your terminal (CMD on Windows, Terminal on Mac/Linux) and run:
+```bash
+ssh root@YOUR_SERVER_IP
+```
+*Enter the root password provided by Hostinger.*
+
+### Step 3.2: Update System Packages
+Keep your server secure and updated:
+```bash
+apt update && apt upgrade -y
+```
+
+### Step 3.3: Install Essential Tools
+```bash
+apt install -y git curl wget sudo build-essential
+```
+
+---
+
+## 3. Environment Preparation
+
+### Step 3.1: Install Node.js 20
+```bash
+curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+apt install -y nodejs
+```
+Verify installation: `node -v` and `npm -v`
+
+### Step 3.2: Install PM2 (Process Manager)
+PM2 keeps your app running even after the server restarts or crashes.
+```bash
+npm install -g pm2
+```
+
+---
+
+## 4. Database Setup (PostgreSQL)
+
+### Step 4.1: Install PostgreSQL
+```bash
+apt install -y postgresql postgresql-contrib
+```
+
+### Step 4.2: Access PostgreSQL Prompt
+```bash
+sudo -i -u postgres
+psql
+```
+
+### Step 4.3: Create Database and User
+*Change `YourSecurePassword` to something strong.*
+```sql
+CREATE DATABASE looncamp_db;
+CREATE USER looncamp_user WITH PASSWORD 'YourSecurePassword';
+GRANT ALL PRIVILEGES ON DATABASE looncamp_db TO looncamp_user;
+\q
+exit
+```
+
+---
+
+## 5. Application Deployment
+
+### Step 5.1: Create Web Directory
+```bash
+mkdir -p /var/www/looncamp
+cd /var/www/looncamp
+```
+
+### Step 5.2: Upload Code
+You can use Git to clone your repository directly:
+```bash
+git clone https://github.com/YOUR_USERNAME/LoonCamp-Final-one.git .
+```
+*Alternatively, use FileZilla (SFTP) to upload all files to `/var/www/looncamp`.*
+
+### Step 5.3: Install Project Dependencies
+```bash
+npm install
+```
+
+### Step 5.4: Initialize Database Schema
+```bash
+psql -h localhost -U looncamp_user -d looncamp_db -f backend/schema.sql
+```
+*Enter your database password when prompted.*
+
+### Step 5.5: Configure Environment Variables
+Create the `.env` file:
+```bash
+nano .env
+```
+Paste the following (Update the password):
+```env
+DATABASE_URL=postgresql://looncamp_user:YourSecurePassword@localhost:5432/looncamp_db
+JWT_SECRET=choose_a_long_random_string_here
+PORT=8080
+NODE_ENV=production
+```
+*Press `Ctrl + O`, `Enter`, then `Ctrl + X` to save.*
+
+---
+
+## 6. Process Management (PM2)
+
+### Step 6.1: Start the Backend
+```bash
+cd backend
+pm2 start server.js --name "looncamp-api"
+```
+
+### Step 6.2: Ensure Persistence
+This makes sure the app starts automatically if the VPS reboots.
+```bash
+pm2 save
+pm2 startup
+```
+*Follow the instructions printed on the screen (copy and paste the command it gives you).*
+
+---
+
+## 7. Web Server & SSL (Nginx)
+
+### Step 7.1: Install Nginx
+```bash
+apt install -y nginx
+```
+
+### Step 7.2: Configure Domain
+```bash
+nano /etc/nginx/sites-available/looncamp
+```
+Paste this configuration:
+```nginx
+server {
+    listen 80;
+    server_name looncamp.shop www.looncamp.shop;
+
+    location / {
+        proxy_pass http://localhost:8080;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+    }
+}
+```
+*Save and Exit.*
+
+### Step 7.3: Enable the Site
+```bash
+ln -s /etc/nginx/sites-available/looncamp /etc/nginx/sites-enabled/
+nginx -t
+systemctl restart nginx
+```
+
+### Step 7.4: Secure with SSL (HTTPS)
+```bash
+apt install -y certbot python3-certbot-nginx
+certbot --nginx -d looncamp.shop -d www.looncamp.shop
+```
+*Follow the prompts to enable HTTPS redirect.*
+
+---
+✅ **Congratulations!** Your site is now live at `https://looncamp.shop` and the admin panel at `https://looncamp.shop/admin/`.
