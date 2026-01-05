@@ -26,7 +26,9 @@ const adminPath = path.join(__dirname, 'public/admin');
 
 // Middleware to handle /admin trailing slash
 app.use((req, res, next) => {
+  console.log(`Incoming request: ${req.method} ${req.path}`);
   if (req.path === '/admin') {
+    console.log('Redirecting /admin to /admin/');
     return res.redirect(301, '/admin/');
   }
   next();
@@ -46,11 +48,6 @@ app.get('/admin/config.js', (req, res) => {
 // Serve static files for admin
 app.use('/admin', express.static(adminPath));
 
-// Handle all other /admin sub-routes for SPA routing
-app.get(/^\/admin(\/.*)?$/, (req, res) => {
-  res.sendFile(path.join(adminPath, 'index.html'));
-});
-
 // API Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/properties', propertyRoutes);
@@ -62,6 +59,12 @@ app.get('/api/health', (req, res) => {
     message: 'LoonCamp API is running',
     timestamp: new Date().toISOString(),
   });
+});
+
+// Handle all other routes for SPA routing - Serve React frontend
+// If it's an admin route, serve admin/index.html
+app.get(/^\/admin(\/.*)?$/, (req, res) => {
+  res.sendFile(path.join(adminPath, 'index.html'));
 });
 
 // 404 handler for API routes
