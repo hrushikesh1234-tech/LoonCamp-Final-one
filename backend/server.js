@@ -52,6 +52,11 @@ app.use('/admin', express.static(adminPath));
 app.use('/api/auth', authRoutes);
 app.use('/api/properties', propertyRoutes);
 
+// Root route - redirect to admin or show welcome message
+app.get('/', (req, res) => {
+  res.redirect('/admin/');
+});
+
 // Health check endpoint
 app.get('/api/health', (req, res) => {
   res.json({
