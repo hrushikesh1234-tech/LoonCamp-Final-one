@@ -10,6 +10,8 @@ const Dashboard = () => {
   const [activeCategory, setActiveCategory] = useState('all');
   const navigate = useNavigate();
 
+  const [expandedCard, setExpandedCard] = useState(null);
+
   useEffect(() => {
     const adminData = localStorage.getItem('admin');
     if (adminData) {
@@ -239,7 +241,11 @@ const Dashboard = () => {
               {/* Mobile Card Grid */}
               <div className="properties-grid">
                 {filteredProperties.map((property) => (
-                  <div key={property.id} className="property-card">
+                  <div 
+                    key={property.id} 
+                    className={`property-card ${expandedCard === property.id ? 'expanded' : ''}`}
+                    onClick={() => setExpandedCard(expandedCard === property.id ? null : property.id)}
+                  >
                     <img 
                       src={property.images && property.images[0] ? property.images[0] : 'https://via.placeholder.com/300x200?text=No+Image'} 
                       alt={property.title}
