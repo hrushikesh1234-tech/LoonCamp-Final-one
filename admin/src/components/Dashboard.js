@@ -160,10 +160,20 @@ const Dashboard = () => {
     <div>
       <header className="admin-header">
         <div className="container">
-          <h1>LoonCamp Admin Panel</h1>
-          <div className="user-info">
-            <button className="btn btn-secondary" onClick={handleLogout}>
-              Logout
+          <h1>LoonCamp Admin</h1>
+          <div className="header-actions">
+            <button className="icon-btn" title="Call Support" onClick={() => window.open('tel:+918669505727')}>
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            </button>
+            <button className="icon-btn" title="WhatsApp Support" onClick={() => window.open('https://wa.me/918669505727')}>
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+            </button>
+            <button className="icon-btn" title="Notifications">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+              <span className="badge">3</span>
+            </button>
+            <button className="icon-btn logout" title="Logout" onClick={handleLogout}>
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
             </button>
           </div>
         </div>
@@ -198,11 +208,11 @@ const Dashboard = () => {
           ))}
         </div>
 
-        <div className="category-tabs" style={{ display: 'flex', gap: '10px', marginBottom: '20px', borderBottom: '1px solid #eee', paddingBottom: '10px' }}>
+        <div className="category-tabs">
           {['all', 'camping', 'cottage', 'villa'].map(cat => (
             <button
               key={cat}
-              className={`btn ${activeCategory === cat ? 'btn-primary' : 'btn-secondary'}`}
+              className={`tab-btn ${activeCategory === cat ? 'active' : ''}`}
               style={{ textTransform: 'capitalize' }}
               onClick={() => setActiveCategory(cat)}
             >
