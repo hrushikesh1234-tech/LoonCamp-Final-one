@@ -181,28 +181,27 @@ const Dashboard = () => {
 
       <div className="container">
         <div className="dashboard-grid">
-          <div className="dashboard-card" style={{ borderLeftColor: '#667eea' }}>
+          <div className="dashboard-card total-properties">
             <p>Total Properties</p>
             <h3>{properties.length}</h3>
           </div>
           {categorySettings.map(setting => (
             <div 
               key={setting.category} 
-              className="dashboard-card category-card" 
-              style={{ borderLeftColor: setting.is_closed ? '#f56565' : '#48bb78' }}
+              className={`dashboard-card category-card ${setting.category} ${setting.is_closed ? 'closed' : ''}`}
             >
               <div className="card-header">
                 <h3>{setting.category}</h3>
                 <button 
-                  className={`btn btn-status-toggle ${setting.is_closed ? 'btn-success' : 'btn-danger'}`}
+                  className={`btn-status-toggle ${setting.is_closed ? 'btn-success' : 'btn-danger'}`}
                   onClick={() => handleToggleCategory(setting.category, setting.is_closed)}
                 >
                   {setting.is_closed ? 'Open' : 'Close'}
                 </button>
               </div>
               <div className="card-body">
-                <p>{setting.is_closed ? 'Closed' : 'Active'}</p>
-                <span style={{ fontSize: '11px', color: '#718096' }}>{setting.base_price}</span>
+                <span className="status-text">{setting.is_closed ? 'Closed' : 'Active'}</span>
+                <span className="price-tag">{setting.base_price}</span>
               </div>
             </div>
           ))}
