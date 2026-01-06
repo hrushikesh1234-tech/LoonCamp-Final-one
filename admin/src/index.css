@@ -470,9 +470,62 @@ code {
 }
 
 .property-card.expanded {
-  transform: scale(1.1);
-  z-index: 100;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(1);
+  width: calc(100% - 32px);
+  max-width: 450px;
+  max-height: 90vh;
+  z-index: 1000;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  background: white;
+  overflow-y: auto;
+}
+
+.property-card-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
+  z-index: 999;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.property-card-overlay.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.property-card.expanded .property-card-actions {
+  display: none; /* Hide mini actions in expanded mode */
+}
+
+.property-card-expanded-actions {
+  display: none;
+  padding: 16px;
+  flex-direction: column;
+  gap: 10px;
+  background: #f8fafc;
+  border-top: 1px solid #e2e8f0;
+}
+
+.property-card.expanded .property-card-expanded-actions {
+  display: flex;
+}
+
+.property-card.expanded .property-card-title {
+  font-size: 18px;
+  white-space: normal;
+}
+
+.property-card.expanded .property-card-price {
+  font-size: 16px;
 }
 
 .property-card-image {

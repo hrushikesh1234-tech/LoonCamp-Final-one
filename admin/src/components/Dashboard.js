@@ -160,6 +160,7 @@ const Dashboard = () => {
 
   return (
     <div>
+      <div className={`property-card-overlay ${expandedCard ? 'visible' : ''}`} onClick={() => setExpandedCard(null)}></div>
       <header className="admin-header">
         <div className="container">
           <h1>LoonCamp Admin</h1>
@@ -271,9 +272,59 @@ const Dashboard = () => {
                         </div>
                         <button 
                           className="btn-edit-mini"
-                          onClick={() => navigate(`/property/edit/${property.id}`)}
+                          onClick={(e) => { e.stopPropagation(); navigate(`/property/edit/${property.id}`); }}
                         >
                           <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                        </button>
+                      </div>
+                    </div>
+                    <div className="property-card-expanded-actions" onClick={(e) => e.stopPropagation()}>
+                      <div className="action-buttons">
+                        <button
+                          className="action-btn action-btn-edit"
+                          onClick={() => navigate(`/property/edit/${property.id}`)}
+                        >
+                          Edit
+                        </button>
+                        <button
+                          className={`action-btn ${property.is_active ? 'action-btn-deactivate' : 'action-btn-toggle'}`}
+                          onClick={() => handleToggleActive(property.id, property.is_active)}
+                        >
+                          {property.is_active ? 'Deactivate' : 'Activate'}
+                        </button>
+                        <button
+                          className={`action-btn ${property.is_available ? 'action-btn-booked' : 'action-btn-available'}`}
+                          onClick={() => handleToggleAvailability(property.id, property.is_available)}
+                        >
+                          {property.is_available ? 'Mark Booked' : 'Mark Available'}
+                        </button>
+                        <button
+                          className={`action-btn ${property.is_top_selling ? 'action-btn-remove-top' : 'action-btn-top'}`}
+                          onClick={() => handleToggleTopSelling(property.id, property.is_top_selling)}
+                        >
+                          {property.is_top_selling ? 'Remove Top' : 'Mark Top'}
+                        </button>
+                        <button
+                          className="action-btn action-btn-delete"
+                          onClick={() => handleDelete(property.id)}
+                        >
+                          Delete
+                        </button>
+                      </div>
+                      <div className="property-contact-btns" style={{ marginTop: '15px', justifyContent: 'center' }}>
+                        <button 
+                          className="btn btn-primary" 
+                          style={{ width: 'auto', flex: 1 }}
+                          onClick={() => window.open(`tel:${property.phone || '+918669505727'}`)}
+                        >
+                          Call Now
+                        </button>
+                        <button 
+                          className="btn btn-success" 
+                          style={{ width: 'auto', flex: 1 }}
+                          onClick={() => window.open(`https://wa.me/${property.whatsapp || '918669505727'}`)}
+                        >
+                          WhatsApp
                         </button>
                       </div>
                     </div>
