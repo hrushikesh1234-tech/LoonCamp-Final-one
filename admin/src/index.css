@@ -235,7 +235,7 @@ code {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
   gap: 12px;
-  margin-bottom: 24px;
+  margin-bottom: 12px;
 }
 
 .dashboard-card {
@@ -344,8 +344,8 @@ code {
 .category-tabs {
   display: flex;
   gap: 8px;
-  margin-bottom: 24px;
-  padding: 4px 0 12px;
+  margin-bottom: 12px;
+  padding: 0 0 8px;
   overflow-x: auto;
   scrollbar-width: none;
   -ms-overflow-style: none;
