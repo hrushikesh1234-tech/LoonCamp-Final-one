@@ -377,10 +377,102 @@ code {
   transform: translateY(-1px);
 }
 
+/* Action Buttons Modern Design */
+.action-buttons {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.action-btn {
+  padding: 8px 16px;
+  font-size: 12px;
+  font-weight: 700;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  color: white;
+}
+
+.action-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  filter: brightness(1.1);
+}
+
+.action-btn:active {
+  transform: translateY(0);
+}
+
+.action-btn-edit {
+  background: linear-gradient(135deg, #4f46e5 0%, #3730a3 100%);
+}
+
+.action-btn-delete {
+  background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%);
+}
+
+.action-btn-toggle {
+  background: linear-gradient(135deg, #10b981 0%, #047857 100%);
+}
+
+.action-btn-deactivate {
+  background: linear-gradient(135deg, #f59e0b 0%, #b45309 100%);
+}
+
+.action-btn-booked {
+  background: linear-gradient(135deg, #64748b 0%, #334155 100%);
+}
+
+.action-btn-top {
+  background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%);
+}
+
+.action-btn-remove-top {
+  background: #f1f5f9;
+  color: #475569;
+  border: 1px solid #e2e8f0;
+}
+
+.action-btn-available {
+  background: linear-gradient(135deg, #34d399 0%, #059669 100%);
+}
+
 /* Responsive Table */
 @media (max-width: 768px) {
+  .admin-header {
+    padding: 2px 0;
+  }
+  
+  .admin-header h1 {
+    font-size: 12px;
+  }
+
+  .admin-header .container {
+    padding: 0 8px;
+  }
+
+  .icon-btn {
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+  }
+
+  .icon-btn svg {
+    width: 12px;
+    height: 12px;
+  }
+
   .properties-section {
-    padding: 15px;
+    padding: 12px;
     background: transparent;
     box-shadow: none;
   }
@@ -399,7 +491,7 @@ code {
     border-radius: 16px;
     margin-bottom: 16px;
     padding: 16px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
     border: 1px solid #f1f5f9;
   }
   
@@ -423,9 +515,9 @@ code {
   .properties-table td::before {
     content: attr(data-label);
     font-weight: 700;
-    color: #64748b;
+    color: #94a3b8;
     text-transform: uppercase;
-    font-size: 11px;
+    font-size: 10px;
     letter-spacing: 0.5px;
     text-align: left;
   }
@@ -433,14 +525,15 @@ code {
   .action-buttons {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 8px;
+    gap: 10px;
   }
 
   .action-btn {
     width: 100%;
     min-width: 0;
-    padding: 10px;
-    font-size: 12px;
+    padding: 12px;
+    font-size: 11px;
+    border-radius: 12px;
   }
 
   .action-btn-delete {
