@@ -277,34 +277,74 @@ code {
 
 .action-buttons {
   display: flex;
-  gap: 8px;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: center;
 }
 
 .action-btn {
-  padding: 6px 12px;
-  font-size: 12px;
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 600;
   border: none;
-  border-radius: 4px;
+  border-radius: 8px;
   cursor: pointer;
-  transition: all 0.3s;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  min-width: 100px;
+}
+
+.action-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  filter: brightness(1.05);
+}
+
+.action-btn:active {
+  transform: translateY(0);
 }
 
 .action-btn-edit {
-  background: #4299e1;
+  background: #3b82f6;
   color: white;
-}
-
-.action-btn-edit:hover {
-  background: #3182ce;
 }
 
 .action-btn-delete {
-  background: #f56565;
+  background: #ef4444;
   color: white;
 }
 
-.action-btn-delete:hover {
-  background: #e53e3e;
+.action-btn-toggle {
+  background: #10b981;
+  color: white;
+}
+
+.action-btn-deactivate {
+  background: #f43f5e;
+  color: white;
+}
+
+.action-btn-booked {
+  background: #f59e0b;
+  color: white;
+}
+
+.action-btn-top {
+  background: #8b5cf6;
+  color: white;
+}
+
+.action-btn-remove-top {
+  background: #64748b;
+  color: white;
+}
+
+.action-btn-available {
+  background: #10b981;
+  color: white;
 }
 
 /* Property Form */

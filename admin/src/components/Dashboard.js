@@ -300,11 +300,7 @@ const Dashboard = () => {
                             Edit
                           </button>
                           <button
-                            className="action-btn"
-                            style={{
-                              background: property.is_active ? '#f56565' : '#48bb78',
-                              color: 'white',
-                            }}
+                            className={`action-btn ${property.is_active ? 'action-btn-deactivate' : 'action-btn-toggle'}`}
                             onClick={() =>
                               handleToggleActive(property.id, property.is_active)
                             }
@@ -312,11 +308,7 @@ const Dashboard = () => {
                             {property.is_active ? 'Deactivate' : 'Activate'}
                           </button>
                           <button
-                            className="action-btn"
-                            style={{
-                              background: property.is_available ? '#ed8936' : '#48bb78',
-                              color: 'white',
-                            }}
+                            className={`action-btn ${property.is_available ? 'action-btn-booked' : 'action-btn-available'}`}
                             onClick={() =>
                               handleToggleAvailability(property.id, property.is_available)
                             }
@@ -324,11 +316,7 @@ const Dashboard = () => {
                             {property.is_available ? 'Mark Booked' : 'Mark Available'}
                           </button>
                           <button
-                            className="action-btn"
-                            style={{
-                              background: property.is_top_selling ? '#718096' : '#ed8936',
-                              color: 'white',
-                            }}
+                            className={`action-btn ${property.is_top_selling ? 'action-btn-remove-top' : 'action-btn-top'}`}
                             onClick={() =>
                               handleToggleTopSelling(
                                 property.id,
