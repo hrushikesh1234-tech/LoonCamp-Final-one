@@ -201,7 +201,6 @@ const Dashboard = () => {
               </div>
               <div className="card-body">
                 <span className="status-text">{setting.is_closed ? 'Closed' : 'Active'}</span>
-                <span className="price-tag">{setting.base_price}</span>
               </div>
             </div>
           ))}
@@ -253,9 +252,9 @@ const Dashboard = () => {
                 <tbody>
                   {filteredProperties.map((property) => (
                     <tr key={property.id}>
-                      <td>{property.id}</td>
-                      <td>{property.title}</td>
-                      <td>
+                      <td data-label="ID">{property.id}</td>
+                      <td data-label="Title">{property.title}</td>
+                      <td data-label="Category">
                         <span
                           style={{
                             textTransform: 'capitalize',
@@ -268,11 +267,11 @@ const Dashboard = () => {
                           {property.category}
                         </span>
                       </td>
-                      <td>{property.location}</td>
-                      <td>{property.price}</td>
-                      <td>{property.rating}</td>
-                      <td>
-                        <div style={{ display: 'flex', gap: '5px', flexWrap: 'wrap' }}>
+                      <td data-label="Location">{property.location}</td>
+                      <td data-label="Price">{property.price}</td>
+                      <td data-label="Rating">{property.rating}</td>
+                      <td data-label="Status">
+                        <div style={{ display: 'flex', gap: '5px', flexWrap: 'wrap', justifyContent: 'flex-end' }}>
                           <span
                             className={`status-badge ${
                               property.is_active ? 'status-active' : 'status-inactive'
@@ -298,7 +297,7 @@ const Dashboard = () => {
                           )}
                         </div>
                       </td>
-                      <td>
+                      <td data-label="Actions">
                         <div className="action-buttons">
                           <button
                             className="action-btn action-btn-edit"
