@@ -860,8 +860,19 @@ code {
   color: #718096;
 }
 
-/* Responsive */
+.search-container input:focus {
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
 @media (max-width: 768px) {
+  .search-container {
+    width: 100%;
+  }
+  .search-container input {
+    width: 100% !important;
+  }
+
   .form-grid {
     grid-template-columns: 1fr;
   }

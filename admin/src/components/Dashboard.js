@@ -11,6 +11,7 @@ const Dashboard = () => {
   const navigate = useNavigate();
 
   const [expandedCard, setExpandedCard] = useState(null);
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     const adminData = localStorage.getItem('admin');
@@ -99,9 +100,12 @@ const Dashboard = () => {
     }
   };
 
-  const filteredProperties = activeCategory === 'all' 
-    ? properties 
-    : properties.filter(p => p.category === activeCategory);
+  const filteredProperties = properties.filter(p => {
+    const matchesCategory = activeCategory === 'all' || p.category === activeCategory;
+    const matchesSearch = p.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
+                          p.location.toLowerCase().includes(searchTerm.toLowerCase());
+    return matchesCategory && matchesSearch;
+  });
 
   const handleToggleActive = async (id, currentValue) => {
     try {
@@ -223,8 +227,27 @@ const Dashboard = () => {
         </div>
 
         <div className="properties-section">
-          <div className="properties-header">
-            <h2>All Properties</h2>
+        <div className="properties-header">
+          <h2>All Properties</h2>
+          <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', alignItems: 'center' }}>
+            <div className="search-container" style={{ position: 'relative' }}>
+              <input
+                type="text"
+                placeholder="Search properties..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                style={{
+                  padding: '10px 16px',
+                  borderRadius: '10px',
+                  border: '1px solid #e2e8f0',
+                  fontSize: '14px',
+                  width: '250px',
+                  outline: 'none',
+                  transition: 'border-color 0.2s',
+                  background: '#f8fafc'
+                }}
+              />
+            </div>
             <button
               className="btn btn-success"
               onClick={() => navigate('/property/new')}
@@ -232,6 +255,7 @@ const Dashboard = () => {
               Add New Property
             </button>
           </div>
+        </div>
 
           {properties.length === 0 ? (
             <p style={{ textAlign: 'center', padding: '40px', color: '#999' }}>
