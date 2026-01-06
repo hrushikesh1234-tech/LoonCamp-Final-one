@@ -171,30 +171,28 @@ const Dashboard = () => {
 
       <div className="container">
         <div className="dashboard-grid">
-          <div className="dashboard-card">
-            <h3>{properties.length}</h3>
+          <div className="dashboard-card" style={{ borderLeftColor: '#667eea' }}>
             <p>Total Properties</p>
+            <h3>{properties.length}</h3>
           </div>
           {categorySettings.map(setting => (
-            <div key={setting.category} className="dashboard-card" style={{ borderColor: setting.is_closed ? '#f56565' : '#48bb78' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <h3 style={{ textTransform: 'capitalize' }}>{setting.category}</h3>
+            <div 
+              key={setting.category} 
+              className="dashboard-card category-card" 
+              style={{ borderLeftColor: setting.is_closed ? '#f56565' : '#48bb78' }}
+            >
+              <div className="card-header">
+                <h3>{setting.category}</h3>
                 <button 
-                  className={`btn ${setting.is_closed ? 'btn-success' : 'btn-danger'}`}
-                  style={{ padding: '4px 8px', fontSize: '12px' }}
+                  className={`btn btn-status-toggle ${setting.is_closed ? 'btn-success' : 'btn-danger'}`}
                   onClick={() => handleToggleCategory(setting.category, setting.is_closed)}
                 >
                   {setting.is_closed ? 'Open' : 'Close'}
                 </button>
               </div>
-              <div style={{ marginTop: '10px' }}>
-                <p style={{ margin: '5px 0', fontSize: '14px' }}><strong>Status:</strong> {setting.is_closed ? 'Closed' : 'Operational'}</p>
-                {setting.is_closed && (
-                  <>
-                    <p style={{ margin: '5px 0', fontSize: '14px' }}><strong>Reason:</strong> {setting.closed_reason}</p>
-                    <p style={{ margin: '5px 0', fontSize: '14px' }}><strong>Date:</strong> {setting.closed_from}</p>
-                  </>
-                )}
+              <div className="card-body">
+                <p>{setting.is_closed ? 'Closed' : 'Active'}</p>
+                <span style={{ fontSize: '11px', color: '#718096' }}>{setting.base_price}</span>
               </div>
             </div>
           ))}
