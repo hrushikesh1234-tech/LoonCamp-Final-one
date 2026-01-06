@@ -154,7 +154,7 @@ code {
 /* Header */
 .admin-header {
   background: #0a0a0a;
-  padding: 8px 0;
+  padding: 10px 0;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
   margin-bottom: 20px;
   position: sticky;
@@ -167,7 +167,7 @@ code {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 12px;
+  gap: 16px;
 }
 
 .admin-header h1 {
@@ -182,15 +182,15 @@ code {
 .admin-header .header-actions {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 14px;
 }
 
 .icon-btn {
   background: #1a1a1a;
   border: 1px solid #2a2a2a;
   color: #ffffff;
-  width: 36px;
-  height: 36px;
+  width: 38px;
+  height: 38px;
   border-radius: 10px;
   display: flex;
   align-items: center;
@@ -449,26 +449,30 @@ code {
 /* Responsive Table */
 @media (max-width: 768px) {
   .admin-header {
-    padding: 2px 0;
+    padding: 8px 0;
   }
   
   .admin-header h1 {
-    font-size: 12px;
+    font-size: 14px;
   }
 
   .admin-header .container {
-    padding: 0 8px;
+    padding: 0 12px;
+  }
+
+  .admin-header .header-actions {
+    gap: 12px;
   }
 
   .icon-btn {
-    width: 28px;
-    height: 28px;
-    border-radius: 6px;
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
   }
 
   .icon-btn svg {
-    width: 12px;
-    height: 12px;
+    width: 16px;
+    height: 16px;
   }
 
   .properties-section {
