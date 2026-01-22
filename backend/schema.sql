@@ -1,4 +1,4 @@
--- LoonCamp PostgreSQL Database Schema
+-- PawnaHavenCamp PostgreSQL Database Schema
 -- Production-ready schema for property booking admin panel
 
 -- Create admins table
@@ -75,7 +75,7 @@ CREATE INDEX IF NOT EXISTS idx_property_images_property_id ON property_images(pr
 
 -- Insert initial admin user
 INSERT INTO admins (email, password_hash)
-VALUES ('admin@looncamp.shop', '$2b$10$InC9HGOdQsVY/JY.8Vwz7OmLCjYYdOg6zkG21.J2f3uDh7qVOe8rC')
+VALUES ('admin@pawnahavencamp.shop', '$2b$10$InC9HGOdQsVY/JY.8Vwz7OmLCjYYdOg6zkG21.J2f3uDh7qVOe8rC')
 ON CONFLICT (email) DO NOTHING;
 
 -- Sample property data (optional - for testing)

@@ -31,7 +31,7 @@ const Hero = () => {
         {/* Main Title */}
         <div className="overflow-hidden mb-8">
           <h1 className="font-display text-5xl md:text-7xl lg:text-8xl xl:text-9xl font-semibold text-cream tracking-[0.08em] animate-fade-up delay-200">
-            LoonCamp
+            PawnaHavenCamp
           </h1>
         </div>
 

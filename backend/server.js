@@ -58,7 +58,7 @@ app.use('/api/properties', propertyRoutes);
 app.get('/api/health', (req, res) => {
   res.json({
     success: true,
-    message: 'LoonCamp API is running',
+    message: 'PawnaHavenCamp API is running',
     timestamp: new Date().toISOString(),
   });
 });
@@ -119,7 +119,7 @@ process.on('SIGINT', async () => {
 // Start server
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`\n=================================`);
-  console.log(`LoonCamp API Server`);
+  console.log(`PawnaHavenCamp API Server`);
   console.log(`=================================`);
   console.log(`Cloudinary Config: { cloud_name: ${process.env.CLOUDINARY_CLOUD_NAME ? 'Present' : 'Missing'}, api_key: ${process.env.CLOUDINARY_API_KEY ? 'Present' : 'Missing'}, api_secret: ${process.env.CLOUDINARY_API_SECRET ? 'Present' : 'Missing'} }`);
   console.log(`Server running on port ${PORT}`);

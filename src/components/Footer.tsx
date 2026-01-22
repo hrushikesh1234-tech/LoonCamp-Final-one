@@ -21,11 +21,11 @@ const Footer = () => {
           <div className="lg:col-span-1">
             <div className="flex items-center gap-3 mb-6">
               <div className="w-10 h-10 border-2 border-primary rounded-full flex items-center justify-center">
-                <span className="text-primary font-display text-lg font-semibold">LC</span>
+                <span className="text-primary font-display text-lg font-semibold">PH</span>
               </div>
               <div className="flex flex-col">
                 <span className="text-lg font-display font-semibold tracking-[0.15em]">
-                  LoonCamp
+                  PawnaHavenCamp
                 </span>
                 <span className="text-header-foreground/50 text-[10px] tracking-[0.2em] uppercase">
                   Luxury Escapes
@@ -125,7 +125,7 @@ const Footer = () => {
         {/* Bottom Bar */}
         <div className="py-6 border-t border-header-foreground/10 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-header-foreground/40 text-sm">
-            © {new Date().getFullYear()} LoonCamp. All rights reserved.
+            © {new Date().getFullYear()} PawnaHavenCamp. All rights reserved.
           </p>
           <div className="flex items-center gap-6 text-sm text-header-foreground/40">
             <a href="#" className="hover:text-primary transition-colors duration-300">

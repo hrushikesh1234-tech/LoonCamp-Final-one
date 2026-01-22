@@ -39,7 +39,7 @@ const Header = () => {
                 <span className={`font-display text-lg md:text-xl font-semibold transition-colors duration-300 ${
                   isScrolled ? "text-primary" : "text-primary"
                 } group-hover:text-gold-light`}>
-                  LC
+                  PH
                 </span>
               </div>
             </div>
@@ -47,7 +47,7 @@ const Header = () => {
               <span className={`text-lg md:text-xl font-display font-semibold tracking-[0.15em] transition-colors duration-300 ${
                 isScrolled ? "text-primary" : "text-header-foreground"
               }`}>
-                LoonCamp
+                PawnaHavenCamp
               </span>
               <span className={`text-[10px] tracking-[0.2em] uppercase transition-colors duration-300 ${
                 isScrolled ? "text-primary/60" : "text-header-foreground/50"

@@ -1,7 +1,7 @@
 {
-  "name": "looncamp-backend",
+  "name": "pawnahavencamp-backend",
   "version": "1.0.0",
-  "description": "LoonCamp Property Booking Backend API",
+  "description": "PawnaHavenCamp Property Booking Backend API",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
@@ -9,12 +9,12 @@
     "init-db": "node scripts/initDb.js"
   },
   "keywords": [
-    "looncamp",
+    "pawnahavencamp",
     "booking",
     "properties",
     "api"
   ],
-  "author": "LoonCamp",
+  "author": "PawnaHavenCamp",
   "license": "MIT",
   "dependencies": {
     "axios": "^1.13.2",
